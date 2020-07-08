@@ -21,7 +21,7 @@ def test():
 
 @app.route('/test', methods=['GET'])
 def get():
-    print('called Get')
+    #print('called Get')
     return jsonify({'responses': responses})
 
 if __name__ == '__main__':
