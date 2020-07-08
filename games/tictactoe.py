@@ -15,17 +15,14 @@ def place_mark(position):
     turn_count += 1
 
     if (count % 2 == 0):
-
         board[position] = 'X'
-
     else:
-
         board[position] = 'O'
 
     if (turn_count > 5):
         checkGameOver()
 
-
+#checks if there is a winner
 def checkGameOver():
     for i in range(0, 9, 3):
         checkHorizontalWinner('X', i)
