@@ -48,8 +48,6 @@ def checkHorizontalWinner(player, start):
     for i in range(start, start + 3, 1):
         pass
         #if (board[i])
-
-
 #def checkVerticalWinner(player, start);
 
 
