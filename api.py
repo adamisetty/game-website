@@ -9,19 +9,18 @@ responses = []
 def home():
     return "Welcome!"
 
-@app.route('/post', methods=['POST'])
-def test():
+@app.route('/create', methods=['POST'])
+#add parameter for which game later
+def create_game():
     response = {
         'board' : tt.make_board()
     }
     responses.append(response)
-    print('Called post')
     return jsonify({'response' : response}), 201
 
 
 @app.route('/test', methods=['GET'])
 def get():
-    print('called Get')
     return jsonify({'responses': responses})
 
 if __name__ == '__main__':
