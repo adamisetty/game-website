@@ -23,7 +23,7 @@ def place_mark(position):
 
     turn_count += 1
 
-    if count % 2 == 0:
+    if turn_count % 2 == 0:
 
         board[position] = 'X'
 
@@ -54,7 +54,7 @@ def checkGameOver():
     if check_left_diagonal('X') or check_right_diagonal('X'):
         x_won = True
 
-    if checkLeftDiagonal('O') or check_right_diagonal('O'):
+    if check_left_diagonal('O') or check_right_diagonal('O'):
         o_won = True
 
 
@@ -81,3 +81,18 @@ def check_left_diagonal(player):
         if board[i] != player:
             return false
     return true
+
+def is_game_over():
+    return game_over
+
+def get_winner():
+    if game_over:
+        if x_won:
+            return 'X'
+        elif o_won:
+            return 'O'
+        else:
+            return 'No Winner'
+
+def get_score():
+    return turn_count
