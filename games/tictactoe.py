@@ -2,14 +2,9 @@ turn_count = 0
 
 x_won = False
 
-o_won = False
-
-game_over = False
+o_won = True
 
 board = '_________'
-
-SIDE_LEN = 3
-BOARD_LEN = 9
 
 
 def make_board():
@@ -17,67 +12,43 @@ def make_board():
 
 
 def place_mark(position):
-    if x_won or o_won:
-        game_over = True
-        return
-
     turn_count += 1
 
-    if count % 2 == 0:
-
+    if (count % 2 == 0):
         board[position] = 'X'
-
     else:
-
         board[position] = 'O'
 
-    if turn_count > 5:
+    if (turn_count > 5):
         checkGameOver()
 
-    return board
-
-
+#checks if there is a winner
 def checkGameOver():
     for i in range(0, 9, 3):
-        if check_horizontal_winner('X', i):
-            x_won = True
-        if check_horizontal_winner('O', i):
-            o_won = True
+        checkHorizontalWinner('X', i)
+        checkHorizontalWinner('O', i)
 
     for i in range(3):
-        if check_vertical_winner('X', i):
-            x_won = True
+        checkVerticalWinner('X', i)
+        checkVerticalWinner('O', i)
 
-        if check_vertical_winner('O', i):
-            o_won = True
+    checkLeftDiagonal('X')
 
-    if check_left_diagonal('X') or check_right_diagonal('X'):
-        x_won = True
+    checkLeftDiagonal('O')
 
-    if checkLeftDiagonal('O') or check_right_diagonal('O'):
-        o_won = True
+    checkRightDiagonal('X')
+
+    checkRightDiagonal('O')
 
 
-def check_horizontal_winner(player, start):
+def checkHorizontalWinner(player, start):
     for i in range(start, start + 3, 1):
-        if board[i] != player:
-            return false
-    return true
+        pass
+        #if (board[i])
+#def checkVerticalWinner(player, start);
 
-def check_vertical_winner(player, start):
-    for i in range(start, BOARD_LEN , SIDE_LEN):
-        if board[i] != player:
-            return false
-    return true
 
-def check_right_diagonal(player):
-    for i in range(SIDE_LEN - 1, BOARD_LEN - SIDE_LEN, SIDE_LEN - 1):
-        if board[i] != player:
-            return false
-    return true
+#def checkRightDiagonal(player):
 
-def check_left_diagonal(player):
-    for i in range(0, BOARD_LEN, SIDE_LEN + 1):
-        if board[i] != player:
-            return false
-    return true
+
+#def checkLeftDiagonal(player):
