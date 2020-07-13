@@ -1,4 +1,4 @@
-import tictactoe
+from games import tictactoe
 
 make_board = {'tictactoe' : tictactoe.make_board}
 
