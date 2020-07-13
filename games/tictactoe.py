@@ -16,7 +16,9 @@ def place_mark(position):
     #if x_won or o_won:
         #game_over = True
         #return
-
+    if board[position] == 'X' or board[position] == 'O':
+        return 
+         
     turn_count[0] = turn_count[0] + 1
 
     if turn_count[0] % 2 == 0:
