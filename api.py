@@ -17,6 +17,7 @@ def create_game(game):
         'board' : engine.make_board[name](),
         'isWinner' : engine.is_winner[name](),
         'winner' : engine.winner[name](),
+        'current-player' : engine.current_player[name](),
         'score' : engine.score[name]()
     }
     games_data.append(response)

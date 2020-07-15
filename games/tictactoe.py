@@ -3,6 +3,7 @@ turn_count = [0]
 x_won = [False]
 o_won = [False]
 game_over = [False]
+current_player = ['X']
 board = ['_', '_', '_', '_', '_', '_', '_', '_', '_']
 
 SIDE_LEN = 3
@@ -20,9 +21,11 @@ def place_mark(position):
     turn_count[0] = turn_count[0] + 1
 
     if turn_count[0] % 2 == 0:
+        current_player[0] = 'X'
         board[position] = 'X'
 
     else:
+        current_player[0] = 'O'
         board[position] = 'O'
 
     if turn_count[0] >= 5:
@@ -92,3 +95,6 @@ def get_winner():
 
 def get_score():
     return turn_count[0]
+
+def get_current_player():
+    return current_player[0]
