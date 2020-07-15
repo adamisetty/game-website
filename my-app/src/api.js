@@ -1,3 +1,4 @@
+
 const axios = require('axios')
 
 function kebabCaseToCamel(str) {
@@ -29,6 +30,7 @@ class API {
   createEntities(arrayOfEntity) {
     arrayOfEntity.forEach(this.createEntity.bind(this))
   }
+
   /**
    * Create the basic endpoints handlers for CRUD operations
    * @param {A entity Object} entity
@@ -36,20 +38,20 @@ class API {
   createBasicCRUDEndpoints( { name } ) {
     var endpoints = {}
 
-    const resourceURL = `${this.url}/${name}`
+    const resourceURL = `${this.url}`
 
-    endpoints.getAll = ({ params={}}, config={} ) => axios.get(resourceURL, { params }, config)
+    endpoints.create_game = ({game}, config={}) => axios.post(`${resourceURL}/${game}/create`, config)
 
-    endpoints.getOne = ({ id }, config={}) =>  axios.get(`${resourceURL}/${id}`, config)
+    endpoints.get_data = ({game}, config={}) => axios.get(`${resourceURL}/${game}/get_data`, config)
 
-    endpoints.create = (toCreate, config={}) =>  axios.post(resourceURL, toCreate, config)
+    endpoints.make_turn = ({game, position}, config={}) => axios.put(`${resourceURL}/${game}/${position}/make_turn`, config)
 
-    endpoints.update = (toUpdate, config={}) => axios.put(`${resourceURL}/${toUpdate.id}`, toUpdate, config)
-
-    endpoints.patch  = ({id}, toPatch, config={}) => axios.patch(`${resourceURL}/${id}`, toPatch, config)
-
-    endpoints.delete = ({ id }, config={}) => axios.delete(`${resourceURL}/${id}`, config)
-
+    //endpoints.getAll = ({ params={}}, config={} ) => axios.get(resourceURL, { params }, config)
+    //endpoints.getOne = ({ id }, config={}) =>  axios.get(`${resourceURL}/${id}`, config)
+    //endpoints.create = (toCreate, config={}) =>  axios.post(resourceURL, toCreate, config)
+    //endpoints.update = (toUpdate, config={}) => axios.put(`${resourceURL}/${toUpdate.id}`, toUpdate, config)
+    //endpoints.patch  = ({id}, toPatch, config={}) => axios.patch(`${resourceURL}/${id}`, toPatch, config)
+    //endpoints.delete = ({ id }, config={}) => axios.delete(`${resourceURL}/${id}`, config)
     return endpoints
 
   }

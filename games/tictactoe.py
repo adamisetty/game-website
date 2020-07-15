@@ -13,9 +13,7 @@ def make_board():
 
 def place_mark(position):
     position = int(position)
-    #if x_won or o_won:
-        #game_over = True
-        #return
+    
     if board[position] == 'X' or board[position] == 'O':
         return 
          
@@ -27,7 +25,7 @@ def place_mark(position):
     else:
         board[position] = 'O'
 
-    if turn_count[0] > 5:
+    if turn_count[0] >= 5:
         checkGameOver()
         
     return board
