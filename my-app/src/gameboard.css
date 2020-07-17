@@ -1,6 +1,8 @@
+
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
+  background-color: #282c34;
 }
 
 ol, ul {
@@ -17,7 +19,7 @@ ol, ul {
   margin-bottom: 20px;
 }
 
-.square {
+.tile {
   background: #fff;
   border: 1px solid #999;
   float: left;
@@ -32,7 +34,7 @@ ol, ul {
   width: 34px;
 }
 
-.square:focus {
+.tile:focus {
   outline: none;
 }
 

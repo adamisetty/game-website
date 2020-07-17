@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import TicTacToeBoard from './gameboard';
+import './gameboard';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <TicTacToeBoard />
   </React.StrictMode>,
   document.getElementById('root')
 );
