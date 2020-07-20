@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
 from games import engine
+from flask_cors import CORS
 
 app = Flask('game_website')
+CORS(app)
 games_data = []
 
 @app.route('/')
