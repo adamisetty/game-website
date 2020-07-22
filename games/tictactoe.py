@@ -4,7 +4,7 @@ x_won = [False]
 o_won = [False]
 game_over = [False]
 current_player = ['X']
-board = ['_', '_', '_', '_', '_', '_', '_', '_', '_']
+board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
 
 SIDE_LEN = 3
 BOARD_LEN = 9
@@ -15,7 +15,7 @@ def make_board():
 def place_mark(position):
     position = int(position)
     
-    if board[position] == 'X' or board[position] == 'O':
+    if board[position] == 'X' or board[position] == 'O' or game_over[0]:
         return board
 
     if turn_count[0] % 2 == 0:
@@ -26,8 +26,7 @@ def place_mark(position):
         current_player[0] = 'O'
         board[position] = 'O'
 
-    if turn_count[0] >= 5:
-        checkGameOver()
+    checkGameOver()
 
     turn_count[0] = turn_count[0] + 1
 

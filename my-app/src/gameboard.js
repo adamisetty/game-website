@@ -61,9 +61,11 @@ class TicTacToeBoard extends React.Component {
    async handleClick(i) {
     try {
       var game_data = await this.myAPI.endpoints.tictactoe.make_turn({game: 'tictactoe'}, {position: i});
-      //console.log(game_data.data["games_data"][0]["current-player"]);
+      console.log(typeof (game_data.data["games_data"][0]["board"]));
       const tiles = this.state.tiles.slice();
-      tiles[i] = game_data.data["games_data"][0]["current-player"];
+      if (!(game_data.data["games_data"][0]["isWinner"] == "true")) {
+        tiles[i] = game_data.data["games_data"][0]["board"][i];
+      }
       this.setState({tiles: tiles});
     } catch (error) {
       console.log("error");
