@@ -16,9 +16,7 @@ def place_mark(position):
     position = int(position)
     
     if board[position] == 'X' or board[position] == 'O':
-        return 
-         
-    turn_count[0] = turn_count[0] + 1
+        return board
 
     if turn_count[0] % 2 == 0:
         current_player[0] = 'X'
@@ -30,7 +28,9 @@ def place_mark(position):
 
     if turn_count[0] >= 5:
         checkGameOver()
-        
+
+    turn_count[0] = turn_count[0] + 1
+
     return board
 
 

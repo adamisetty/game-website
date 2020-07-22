@@ -53,16 +53,22 @@ class TicTacToeBoard extends React.Component {
        };
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'tictactoe'});
+    //console.log("before");
     this.myAPI.endpoints.tictactoe.create_game({game: 'tictactoe'});
+    //console.log("after");
    }
 
-   handleClick(i) {
-    var game_data = this.myAPI.endpoints.tictactoe.make_turn({game: 'tictactoe'}, {position: '0'});
-    //var json_data = JSON.parse(game_data);
-    console.log(typeof game_data);
-    const tiles = this.state.tiles.slice();
-    tiles[i] = 'd';
-    this.setState({tiles: tiles});
+   async handleClick(i) {
+    try {
+      var game_data = await this.myAPI.endpoints.tictactoe.make_turn({game: 'tictactoe'}, {position: i});
+      //console.log(game_data.data["games_data"][0]["current-player"]);
+      const tiles = this.state.tiles.slice();
+      tiles[i] = game_data.data["games_data"][0]["current-player"];
+      this.setState({tiles: tiles});
+    } catch (error) {
+      console.log("error");
+    }
+    
   }
 
    renderTile(i) {
@@ -78,19 +84,19 @@ class TicTacToeBoard extends React.Component {
        return (
            <div>
                <div className="board-row">
-                {this.renderTile(0)}
-                {this.renderTile(1)}
-                {this.renderTile(2)}
+                {this.renderTile('0')}
+                {this.renderTile('1')}
+                {this.renderTile('2')}
                </div>
                <div className="board-row">
-                {this.renderTile(3)}
-                {this.renderTile(4)}
-                {this.renderTile(5)}
+                {this.renderTile('3')}
+                {this.renderTile('4')}
+                {this.renderTile('5')}
                </div>
                <div className="board-row">
-                {this.renderTile(6)}
-                {this.renderTile(7)}
-                {this.renderTile(8)}
+                {this.renderTile('6')}
+                {this.renderTile('7')}
+                {this.renderTile('8')}
                </div>
            </div>
        );

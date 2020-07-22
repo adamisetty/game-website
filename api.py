@@ -12,7 +12,7 @@ def home():
 
 @app.route('/<game>/create', methods=['POST'])
 def create_game(game):
-    games_data.clear
+    games_data.clear()
     name = game
     response = {
         'game' : name,
@@ -32,11 +32,13 @@ def get_data(game):
 
 
 @app.route('/<game>/<position>/make_turn', methods=['PUT'])
-def make_turn(game, position=0):
+def make_turn(game, position='0'):
+    print('position:', position)
     name = games_data[0]['game'] 
     games_data[0]['board'] = engine.turn[name](position)
     games_data[0]['isWinner'] = engine.is_winner[name]()
     games_data[0]['winner'] = engine.winner[name]()
+    games_data[0]['current-player'] = engine.current_player[name]()
     games_data[0]['score'] = engine.score[name]()
     return jsonify({'games_data' : games_data})
 

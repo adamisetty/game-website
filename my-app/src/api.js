@@ -44,7 +44,7 @@ class API {
 
     endpoints.get_data = ({game}, config={}) => axios.get(`${resourceURL}/${game}/get_data`, config)
 
-    endpoints.make_turn = ({game, position}, config={}) => axios.put(`${resourceURL}/${game}/${position}/make_turn`, config)
+    endpoints.make_turn = ({game}, {position}, config={}) => axios.put(`${resourceURL}/${game}/${position}/make_turn`, config)
 
     //endpoints.getAll = ({ params={}}, config={} ) => axios.get(resourceURL, { params }, config)
     //endpoints.getOne = ({ id }, config={}) =>  axios.get(`${resourceURL}/${id}`, config)
