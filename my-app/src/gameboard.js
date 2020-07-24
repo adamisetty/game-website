@@ -85,6 +85,14 @@ class TicTacToeBoard extends React.Component {
    render() {
        return (
            <div>
+           <div className="title">
+           <p> Tic Tac Toe </p>
+           </div>
+           <div
+           style={{
+           position: 'absolute', left: '50%', top: '50%',
+            transform: 'translate(-50%, -50%)'
+            }}>
                <div className="board-row">
                 {this.renderTile('0')}
                 {this.renderTile('1')}
@@ -100,6 +108,7 @@ class TicTacToeBoard extends React.Component {
                 {this.renderTile('7')}
                 {this.renderTile('8')}
                </div>
+           </div>
            </div>
        );
    }

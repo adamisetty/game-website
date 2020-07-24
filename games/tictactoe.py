@@ -68,13 +68,15 @@ class TicTacToe :
         return True
 
     def check_right_diagonal(self, player):
-        for i in range(self.SIDE_LEN - 1, self.BOARD_LEN - self.SIDE_LEN, self.SIDE_LEN - 1):
+        values = [2, 4, 6]
+        for i in values:
             if self.board[i] != player:
                 return False
         return True
 
     def check_left_diagonal(self, player):
-        for i in range(0, self.BOARD_LEN, self.SIDE_LEN + 1):
+        values = [0, 4, 8]
+        for i in values:
             if self.board[i] != player:
                 return False
         return True
