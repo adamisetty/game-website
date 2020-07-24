@@ -3,6 +3,7 @@ from games import engine
 from flask_cors import CORS
 
 app = Flask('game_website')
+this_engine = engine.Engine()
 CORS(app)
 games_data = []
 
@@ -12,17 +13,21 @@ def home():
 
 @app.route('/<game>/create', methods=['POST'])
 def create_game(game):
+    print("clear data")
     games_data.clear()
-    name = game
+    this_engine.reset()
+    this_engine.make_game(game)
     response = {
-        'game' : name,
-        'board' : engine.make_board[name](),
-        'isWinner' : engine.is_winner[name](),
-        'winner' : engine.winner[name](),
-        'current-player' : engine.current_player[name](),
-        'score' : engine.score[name]()
+        'game' : game,
+        'board' : this_engine.get_board(),
+        'isWinner' : this_engine.is_winner(),
+        'winner' : this_engine.winner(),
+        'current-player' : this_engine.current_player(),
+        'score' : this_engine.score()
     }
+    print("can you see me")
     games_data.append(response)
+    print(games_data)
     return jsonify({'games_data' : games_data}), 201
 
 
@@ -34,12 +39,11 @@ def get_data(game):
 @app.route('/<game>/<position>/make_turn', methods=['PUT'])
 def make_turn(game, position='0'):
     print('position:', position)
-    name = games_data[0]['game'] 
-    games_data[0]['board'] = engine.turn[name](position)
-    games_data[0]['isWinner'] = engine.is_winner[name]()
-    games_data[0]['winner'] = engine.winner[name]()
-    games_data[0]['current-player'] = engine.current_player[name]()
-    games_data[0]['score'] = engine.score[name]()
+    games_data[0]['board'] = this_engine.turn(position)
+    games_data[0]['isWinner'] = this_engine.is_winner()
+    games_data[0]['winner'] = this_engine.winner()
+    games_data[0]['current-player'] = this_engine.current_player()
+    games_data[0]['score'] = this_engine.score()
     return jsonify({'games_data' : games_data})
 
 if __name__ == '__main__':

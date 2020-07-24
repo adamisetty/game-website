@@ -1,13 +1,47 @@
 from games import tictactoe
 
-make_board = {'tictactoe' : tictactoe.make_board}
+# make_board = {'tictactoe' : tictactoe.make_board}
+#
+# turn = {'tictactoe' : tictactoe.place_mark}
+#
+# is_winner = {'tictactoe' : tictactoe.is_game_over}
+#
+# winner = {'tictactoe' : tictactoe.get_winner}
+#
+# current_player = {'tictactoe' : tictactoe.get_current_player}
+#
+# score = {'tictactoe' : tictactoe.get_score}
 
-turn = {'tictactoe' : tictactoe.place_mark}
+class Engine :
 
-is_winner = {'tictactoe' : tictactoe.is_game_over}
+    def __init__(self) :
+        self.name = ""
+        self.game = ""
 
-winner = {'tictactoe' : tictactoe.get_winner}
+    def make_game(self, name):
+        self.name = name
+        if self.name == "tictactoe" :
+            self.game = tictactoe.TicTacToe()
 
-current_player = {'tictactoe' : tictactoe.get_current_player}
+    def turn(self, position):
+        return self.game.place_mark(position)
 
-score = {'tictactoe' : tictactoe.get_score}
+    def winner(self):
+        return self.game.get_winner()
+
+    def is_winner(self):
+        return self.game.is_game_over()
+
+    def current_player(self):
+        return self.game.get_current_player()
+
+    def score(self):
+        return self.game.get_score()
+
+    def get_board(self):
+        return self.game.get_board()
+
+    def reset(self):
+        if self.game == "" :
+            return
+        return self.game.reset()
