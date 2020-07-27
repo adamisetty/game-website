@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.gamebutton {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 100px;
+  height: 100px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  color: #008080;
+  width: 300px;
+}

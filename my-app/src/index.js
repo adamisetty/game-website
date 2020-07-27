@@ -8,7 +8,7 @@ import './gameboard';
 
 ReactDOM.render(
   <React.StrictMode>
-    <TicTacToeBoard />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
