@@ -11,7 +11,16 @@ class Hangman :
         self.previous_wrong_guesses = ""
 
     def choose_word(self, topic) :
-        self.answer = "answer"
+        if topic == 'sport':
+            self.choose_sport()
+            elif topic == 'music':
+                self.choose_music()
+            elif topic == 'animal':
+                self.choose_animal()
+            elif topic == 'fruit':
+                self.choose_fruit_vegetable()
+            #elif topic ==         
+
         self.right_guess = self.right_guess + ("_" * len(self.answer))
         return self.word
 
@@ -21,6 +30,19 @@ class Hangman :
 
     def choose_music_genre(self) :
         music_genre_words = ['reggae', 'country', 'funk', 'classical', 'instrumental', 'alternative', 'psychedelic', 'bluegrass', 'grunge', 'swing']
+        self.answer = random.choice(music_genre_words)
+    
+    def choose_animal(self) :
+        animal_words = ['wombat', 'sloth', 'ferret', 'orangutan', 'leopard', 'rhinoceros', 'peacock', 'penguin', 'reindeer', 'gorilla']
+        self.answer = random.choice(animal_words)
+
+    def choose_fruit_vegetable(self) :
+        fruit_vegetable_words = ['asparagus', 'avacado', 'rutabaga', 'lemongrass', 'watercress', 'pomegranate', 'bamboo', 'turmeric', 'artichoke', 'grapefruit']
+        self.answer = random.choice(fruit_vegetable_words)
+
+    # def choose_(self) :
+    #      = ['', '', '', '', '', '', '', '', '', '']
+    #     self.answer = random.choice()    
 
     #function for guessing a letter
     def place_mark(self, letter) :
