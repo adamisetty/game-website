@@ -10,7 +10,9 @@ class Hangman :
         self.number_of_wrong_guesses = 0
         self.previous_wrong_guesses = ""
 
-    def choose_word(self, topic) :
+    def choose_word(self) :
+        topic_choices = ['sport', 'music', 'animal', 'fruit']
+        topic = random.choice()
         if topic == 'sport':
             self.choose_sport()
             elif topic == 'music':
@@ -18,8 +20,7 @@ class Hangman :
             elif topic == 'animal':
                 self.choose_animal()
             elif topic == 'fruit':
-                self.choose_fruit_vegetable()
-            #elif topic ==         
+                self.choose_fruit_vegetable()      
 
         self.right_guess = self.right_guess + ("_" * len(self.answer))
         return self.word
