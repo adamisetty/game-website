@@ -28,14 +28,47 @@ class BullsAndCows :
 
 
     def has_duplicates(self, string) :
+        for i in range(SECRETCODELEN) :
+            for j in range(SECRETCODELEN) :
+                if string[i] == string[j] and i != j :
+                    return True
+        return False
+
+    
+    def count_bulls(self, string) :
+        bulls = 0
+        for i in range(SECRETCODELEN) :
+            if string[i] == secret_code[i] :
+                bulls += 1
+        return bulls
+
+
+    def count_cows(self, string) :
+        cows = 0
+        for i in range(SECRETCODELEN) :
+            for j in range(SECRETCODELEN) :
+                if string [i] == secret_code[j] and i != j:
+                    cows += 1
+        return cows
 
 
     def place_mark(self, guess) :
         turn_list = []
+        bulls = 0
+        cows = 0
         if len(guess) != self.SECRETCODELEN :
             turn_list.append("Invalid Guess")
         else if has_duplicates(guess) :
             turn_list.append("Duplicates Present")
+        else :
+            bulls = count_bulls(guess)
+            cows = count_cows(guess)
+            turn_list.append(guess)
+            turn_list.append(str(bulls))
+            turn_list.append(str(cows))
+        self.board.append(turn_list)
+        return self.board
+
     
     def get_winner(self) :
         return self.winner
