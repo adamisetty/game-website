@@ -1,4 +1,5 @@
 import random
+import time
 
 class Matching :
 
@@ -35,6 +36,7 @@ class Matching :
             self.blank_board[first_pos] = 'X' # Marks square as a found match
             self.blank_board[second_pos] = 'X'
         else:
+            time.sleep(2) # Gives player 2 seconds to remember words before hidden again
             self.blank_board = ' ' # Hides the word
             self.blank_board = ' '
 
