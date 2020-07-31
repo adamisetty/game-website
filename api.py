@@ -25,9 +25,7 @@ def create_game(game):
         'current-player' : this_engine.current_player(),
         'score' : this_engine.score()
     }
-    print("can you see me")
     games_data.append(response)
-    print(games_data)
     return jsonify({'games_data' : games_data}), 201
 
 

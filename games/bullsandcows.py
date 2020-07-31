@@ -14,13 +14,13 @@ class BullsAndCows :
         self.current_player = None
         self.initial_time = time.time()
         self.final_time = time.time()
-        self.score = initial_time - initial_time
+        self.score = 0
 
 
     def generate_secret_code(self) :
         code = ""
         num = ""
-        for i in range(SECRETCODELEN) :
+        for i in range(self.SECRETCODELEN) :
             while (str(num) in code) :
                 num = random.randint(0,9)
             code = code + str(num)
@@ -28,8 +28,8 @@ class BullsAndCows :
 
 
     def has_duplicates(self, string) :
-        for i in range(SECRETCODELEN) :
-            for j in range(SECRETCODELEN) :
+        for i in range(self.SECRETCODELEN) :
+            for j in range(self.SECRETCODELEN) :
                 if string[i] == string[j] and i != j :
                     return True
         return False
@@ -37,17 +37,17 @@ class BullsAndCows :
     
     def count_bulls(self, string) :
         bulls = 0
-        for i in range(SECRETCODELEN) :
-            if string[i] == secret_code[i] :
+        for i in range(self.SECRETCODELEN) :
+            if string[i] == self.secret_code[i] :
                 bulls += 1
         return bulls
 
 
     def count_cows(self, string) :
         cows = 0
-        for i in range(SECRETCODELEN) :
-            for j in range(SECRETCODELEN) :
-                if string [i] == secret_code[j] and i != j:
+        for i in range(self.SECRETCODELEN) :
+            for j in range(self.SECRETCODELEN) :
+                if string [i] == self.secret_code[j] and i != j:
                     cows += 1
         return cows
 
@@ -58,11 +58,11 @@ class BullsAndCows :
         cows = 0
         if len(guess) != self.SECRETCODELEN :
             turn_list.append("Invalid Guess")
-        else if has_duplicates(guess) :
+        elif self.has_duplicates(guess) :
             turn_list.append("Duplicates Present")
         else :
-            bulls = count_bulls(guess)
-            cows = count_cows(guess)
+            bulls = self.count_bulls(guess)
+            cows = self.count_cows(guess)
             turn_list.append(guess)
             turn_list.append(str(bulls))
             turn_list.append(str(cows))
@@ -94,4 +94,4 @@ class BullsAndCows :
         self.isWinner = False
         self.current_player = None
         self.initial_time = time.time()
-        self.score = initial_time - initial_time
+        self.score = 0
