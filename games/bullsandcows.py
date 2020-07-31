@@ -6,10 +6,9 @@ class BullsAndCows :
 
 
     def __init__(self):
-        self.secret_code = self.generate_secret_code()
         self.SECRETCODELEN = 4
+        self.secret_code = self.generate_secret_code()
         self.board = []
-        self.winner = None 
         self.isWinner = False
         self.current_player = None
         self.initial_time = time.time()
@@ -56,6 +55,10 @@ class BullsAndCows :
         turn_list = []
         bulls = 0
         cows = 0
+        if guess == self.secret_code:
+            self.isWinner = True
+            self.final_time = time.time()
+
         if len(guess) != self.SECRETCODELEN :
             turn_list.append("Invalid Guess")
         elif self.has_duplicates(guess) :
@@ -71,7 +74,7 @@ class BullsAndCows :
 
     
     def get_winner(self) :
-        return self.winner
+        return self.secret_code
 
     
     def is_game_over(self) :
@@ -85,6 +88,8 @@ class BullsAndCows :
     def get_score(self) :
         return math.floor(self.final_time - self.initial_time)
 
+    def get_board(self):
+        return self.board
 
     def reset(self) :
         self.secret_code = self.generate_secret_code()

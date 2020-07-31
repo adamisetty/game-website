@@ -26,6 +26,8 @@ class Engine :
             self.game = tictactoe.TicTacToe()
         if self.name == 'anagrams':
             self.game = anagrams.Anagrams()
+        if self.name == 'bullsandcows':
+            self.game = bullsandcows.BullsAndCows()
 
     def turn(self, position):
         return self.game.place_mark(position)
