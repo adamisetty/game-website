@@ -51,8 +51,8 @@ class Matching:
         self.check_game_over()
         first_pos = int(first_pos)
         second_pos = int(second_pos)
-        blank_board[first_pos] = hidden_board[first_pos]
-        blank_board[second_pos] = hidden_board[second_pos]
+        self.blank_board[first_pos] = self.hidden_board[first_pos]
+        self.blank_board[second_pos] = self.hidden_board[second_pos]
         self.check_same_word(first_pos, second_pos)
 
     def reset(self):
