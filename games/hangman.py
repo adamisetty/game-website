@@ -3,12 +3,12 @@ import random
 class Hangman :
 
     def __init__(self) :
-        self.turn_count = 0
         self.game_over = False
         self.answer = ""
         self.right_guess = ""
         self.number_of_wrong_guesses = 0
         self.previous_wrong_guesses = ""
+        self.choose_word()
 
     def choose_word(self) :
         topic_choices = ['sport', 'music', 'animal', 'fruit']
@@ -66,16 +66,30 @@ class Hangman :
         #         game_over = False
         # game_over = True
 
-        if self.right_guess == self.answer or self.number_of_wrong_guesses >= 6:
+        if self.right_guess == self.answer or self.number_of_wrong_guesses > 5:
             game_over = True
 
+    def is_game_over(self) :
+        return self.game_over
+
+    def get_score(self) :
+        return self.number_of_wrong_guesses
+
+    def get_winner(self) :
+        return (self.number_of_wrong_guesses <= 5)    
+
+    def get_current_player(self) :
+        return self.previous_wrong_guesses
+
+    def get_board(self) :
+        return self.right_guess   
 
     def reset(self) :
-        self.turn_count = 0
         self.game_over = False
         self.answer = ""
         self.right_guess = ""
-        self.wrong_guesses = 0
+        self.number_of_wrong_guesses = 0
+        self.previous_wrong_guesses = ""
 
 
 
