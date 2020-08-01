@@ -1,4 +1,6 @@
 from games import tictactoe
+from games import matching
+from games import hangman
 
 # make_board = {'tictactoe' : tictactoe.make_board}
 #
@@ -22,6 +24,10 @@ class Engine :
         self.name = name
         if self.name == "tictactoe" :
             self.game = tictactoe.TicTacToe()
+        if self.name == "matching" :
+            self.game = matching.Matching()
+        if self.name == "hangman" :
+            self.game = hangman.Hangman()
 
     def turn(self, position):
         return self.game.place_mark(position)
