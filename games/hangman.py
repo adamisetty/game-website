@@ -43,7 +43,7 @@ class Hangman :
         print(self.answer)
 
     def choose_fruit_vegetable(self) :
-        fruit_vegetable_words = ['asparagus', 'avacado', 'rutabaga', 'lemongrass', 'watercress', 'pomegranate', 'bamboo', 'turmeric', 'artichoke', 'grapefruit']
+        fruit_vegetable_words = ['asparagus', 'avacado', 'rutabaga', 'lemongrass', 'watercress', 'pomegranate', 'bamboo', 'kale', 'artichoke', 'grapefruit']
         self.answer = random.choice(fruit_vegetable_words)
         print(self.answer)
 
@@ -74,7 +74,12 @@ class Hangman :
         #         game_over = False
         # game_over = True
 
-        if self.right_guess == self.answer or self.number_of_wrong_guesses > 5:
+        is_player_correct = False
+        for i in range (len(self.answer)) :
+            if not self.right_guess[i] == self.answer[i] :
+                is_player_correct = True
+
+        if is_player_correct or self.number_of_wrong_guesses > 5:
             self.game_over = True
 
     def is_game_over(self) :
