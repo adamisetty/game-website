@@ -4,6 +4,7 @@ class Hangman :
 
     def __init__(self) :
         self.game_over = False
+        self.topic = ""
         self.answer = ""
         self.right_guess = []
         self.number_of_wrong_guesses = 0
@@ -12,14 +13,14 @@ class Hangman :
 
     def choose_word(self) :
         topic_choices = ['sport', 'music', 'animal', 'fruit']
-        topic = random.choice(topic_choices)
-        if topic == 'sport':
+        self.topic = random.choice(topic_choices)
+        if self.topic == 'sport':
             self.choose_sport()
-        elif topic == 'music':
+        elif self.topic == 'music':
             self.choose_music_genre()
-        elif topic == 'animal':
+        elif self.topic == 'animal':
             self.choose_animal()
-        elif topic == 'fruit':
+        elif self.topic == 'fruit':
             self.choose_fruit_vegetable()
 
         #self.right_guess = self.right_guess + ("_" * len(self.answer))
@@ -74,12 +75,12 @@ class Hangman :
         #         game_over = False
         # game_over = True
 
-        is_player_correct = False
+        is_player_correct = True
         for i in range (len(self.answer)) :
             if not self.right_guess[i] == self.answer[i] :
-                is_player_correct = True
+                is_player_correct = False
 
-        if is_player_correct or self.number_of_wrong_guesses > 5:
+        if is_player_correct or self.number_of_wrong_guesses >= 6:
             self.game_over = True
 
     def is_game_over(self) :
@@ -89,16 +90,18 @@ class Hangman :
         return self.number_of_wrong_guesses
 
     def get_winner(self) :
-        return (self.number_of_wrong_guesses <= 5)
+        return (self.number_of_wrong_guesses < 6)
 
     def get_current_player(self) :
         return self.previous_wrong_guesses
 
     def get_board(self) :
-        return self.right_guess
+        game_info = [self.topic, self.right_guess]
+        return game_info
 
     def reset(self) :
         self.game_over = False
+        self.topic = ""
         self.answer = ""
         self.right_guess = ""
         self.number_of_wrong_guesses = 0
