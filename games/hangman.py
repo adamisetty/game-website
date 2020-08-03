@@ -84,6 +84,7 @@ class Hangman :
             self.game_over = True
 
     def is_game_over(self) :
+        self.check_game_over()
         return self.game_over
 
     def get_score(self) :
