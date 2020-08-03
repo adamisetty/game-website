@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import logo from './logo.svg';
 import './App.css';
-import TicTacToeBoard from './gameboard';
+import TicTacToeBoard from './tictactoe';
 
 // function App() {
 //  return (
