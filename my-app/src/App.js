@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import logo from './logo.svg';
 import './App.css';
 import TicTacToeBoard from './tictactoe';
+import AnagramsBoard from './anagrams';
+import BullsAndCowsBoard from './bullsandcows';
+import MatchingBoard from './matching';
+import HangmanBoard from './hangman';
 
 // function App() {
 //  return (
@@ -42,6 +46,38 @@ class App extends React.Component {
         document.getElementById('root')
       );
     }
+    if (name == "Anagrams") {
+      ReactDOM.render(
+        <React.StrictMode>
+          <AnagramsBoard />
+        </React.StrictMode>,
+        document.getElementById('root')
+      );
+    }
+    if (name == "Bulls and Cows") {
+      ReactDOM.render(
+        <React.StrictMode>
+          <BullsAndCowsBoard />
+        </React.StrictMode>,
+        document.getElementById('root')
+      );
+    }
+    if (name == "Matching") {
+      ReactDOM.render(
+        <React.StrictMode>
+          <MatchingBoard />
+        </React.StrictMode>,
+        document.getElementById('root')
+      );
+    }
+    if (name == "Hangman") {
+      ReactDOM.render(
+        <React.StrictMode>
+          <HangmanBoard />
+        </React.StrictMode>,
+        document.getElementById('root')
+      );
+    }
   }
 
   renderButton(name) {
@@ -57,6 +93,10 @@ class App extends React.Component {
     return (
     <div>
       {this.renderButton("Tic Tac Toe")}
+      {this.renderButton("Anagrams")}
+      {this.renderButton("Bulls and Cows")}
+      {this.renderButton("Matching")}
+      {this.renderButton("Hangman")}
     </div>
     );
   }

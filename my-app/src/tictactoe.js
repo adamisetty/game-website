@@ -1,5 +1,5 @@
 import React from 'react';
-import './gameboard.css';
+import './tictactoe.css';
 import API from './api.js';
 
 const flaskApiUrl = "http://127.0.0.1:5000";
