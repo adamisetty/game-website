@@ -1,6 +1,8 @@
 from games import tictactoe
 from games import anagrams
 from games import bullsandcows
+from games import matching
+from games import hangman
 
 # make_board = {'tictactoe' : tictactoe.make_board}
 #
@@ -28,6 +30,10 @@ class Engine :
             self.game = anagrams.Anagrams()
         if self.name == 'bullsandcows':
             self.game = bullsandcows.BullsAndCows()
+        if self.name == "matching" :
+            self.game = matching.Matching()
+        if self.name == "hangman" :
+            self.game = hangman.Hangman()
 
     def turn(self, position):
         return self.game.place_mark(position)
