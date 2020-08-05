@@ -6,7 +6,6 @@ const flaskApiUrl = "http://127.0.0.1:5000";
 
 class Letter extends React.Component {
     render() {
-        console.log(this.props.value);
         return (
           <button
             className="letter"
@@ -22,9 +21,20 @@ class Submit extends React.Component {
     render() {
         return (
             <button
-                className="submit"
+               className="anagrams-submit"
+               onClick={() => this.props.onClick()}
             >
                 {'submit'}
+            </button>
+        );
+    }
+}
+
+class InfoButton extends React.Component {
+    render() {
+        return (
+            <button className= "anagrams-submit">
+                {this.props.value}
             </button>
         )
     }
@@ -36,7 +46,9 @@ class AnagramsBoard extends React.Component {
         super(props);
         this.state = {
             letters: Array(6).fill('_'),
-            word:''
+            o_board: Array(6).fill('_'),
+            word:'',
+            score: 0
         };
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'anagrams'});
@@ -47,11 +59,14 @@ class AnagramsBoard extends React.Component {
         try {
             var start_data = await this.myAPI.endpoints.anagrams.create_game({game: 'anagrams'});
             const letters = this.state.letters;
+            const o_board = this.state.o_board;
             for (let i = 0; i < 6; i++) {
                 var single_letter = start_data.data["games_data"][0]["board"][i];
                 this.state.letters[i] = single_letter;
+                this.state.o_board[i] = single_letter;
             }
             this.setState({letters: letters});
+            this.setState({o_board: o_board});
 
         } catch (error) {
             console.log("error");
@@ -59,15 +74,29 @@ class AnagramsBoard extends React.Component {
     }
 
     async handleLetterClick(i) {
+        this.state.word = this.state.word + this.state.letters[i];
         const letters = this.state.letters;
-        this.state.letters[i] = 'X';
+        this.state.letters[i] = "";
         this.setState({letters: letters});
+        console.log('word: ', this.state.word);
     }
 
-    async handleSubmitClick() {}
+    async handleSubmitClick() {
+        var turn_data = await this.myAPI.endpoints.anagrams.make_turn({game: 'anagrams'}, {position: this.state.word});
+        this.state.word = "";
+
+        const start_board = Array(6).fill('_');
+        for (let i = 0; i < 6; i++) {
+            start_board[i] = this.state.o_board[i]; 
+        }
+        this.setState({letters: start_board});
+        var score = turn_data.data["games_data"][0]["score"];
+        this.setState({score: score});
+
+        console.log('score:', this.state.score);
+    }
 
     renderTile(i) {
-        console.log(this.state.letters[i]);
         return (
             <Letter
                 value = {this.state.letters[i]}
@@ -85,11 +114,37 @@ class AnagramsBoard extends React.Component {
         );
     }
 
+    renderInfoButton(val) {
+        if (val == "score") {
+            return (
+                <InfoButton
+                value = {this.state.score}
+                />
+            )   
+        }
+
+        if (val == "guess") {
+            return (
+                <InfoButton
+                value = {this.state.word}
+                />
+            )   
+        }
+    }
+
     render() { 
         return(
             <div>
                 <div className="anagrams-title">
                     <p> Anagrams </p>
+                </div>
+                <div style={{position: 'absolute', left: '50%', top: '50%',
+                    transform: 'translate(95%, -250%)'}}>
+                    {this.renderInfoButton("score")}  
+                </div>
+                <div style={{position: 'absolute', left: '50%', top: '50%',
+                    transform: 'translate(0%, 10%)'}}>
+                    {this.renderInfoButton("guess")}    
                 </div>
                 <div className="row" style={{position: 'absolute', left: '50%', top: '50%',
                     transform: 'translate(-50%, -10%)'}}>
@@ -102,7 +157,7 @@ class AnagramsBoard extends React.Component {
                 </div>
                 <div className= "row" style={{position: 'absolute', left: '50%', top: '50%',
                     transform: 'translate(-50%, 100%)'}}>
-                <Submit></Submit>
+                {this.renderSubmitButton()}
                 </div>
         </div>
         )
