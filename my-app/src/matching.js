@@ -25,7 +25,7 @@ class MatchingBoard extends React.Component {
        };
     this.firstWinningIndex = 0;
     this.positionString = "";
-    this.timesClicked = 0;
+    this.timesClicked = 1;
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'matching'});
     //console.log("before");
@@ -34,13 +34,18 @@ class MatchingBoard extends React.Component {
    }
 
    async handleClick(i) {
+   if (this.timesClicked % 2 != 0) {
    var first_position = i;
    this.positionString = first_position.toString();
    this.positionString = this.positionString.concat("-");
    this.timesClicked++;
+   console.log(this.timesClicked);
+   }
   }
 
   async handleSecondClick(i) {
+    if (this.timesClicked % 2 == 0) {
+    this.timesClicked++;
     var second_position = i;
     this.positionString = this.positionString.concat(second_position.toString());
     console.log(this.positionString);
@@ -65,14 +70,15 @@ class MatchingBoard extends React.Component {
       console.log("error");
     }
   }
+  }
 
 
    renderMatching(i) {
        return (
            <Matching
                value = {this.state.tiles[i]}
-               onClick={() => this.handleClick(i)}
-               onClick={() => this.handleSecondClick(i)}
+                onClick={() => this.handleClick(i)}
+                onClick={() => this.handleSecondClick(i)}
            />
        );
    }
