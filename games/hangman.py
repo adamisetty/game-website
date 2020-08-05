@@ -12,7 +12,7 @@ class Hangman :
         self.choose_word()
 
     def choose_word(self) :
-        topic_choices = ['sport', 'music', 'animal', 'fruit']
+        topic_choices = ['sport', 'music', 'animal', 'fruits and vegetables']
         self.topic = random.choice(topic_choices)
         if self.topic == 'sport':
             self.choose_sport()
@@ -20,12 +20,12 @@ class Hangman :
             self.choose_music_genre()
         elif self.topic == 'animal':
             self.choose_animal()
-        elif self.topic == 'fruit':
+        elif self.topic == 'fruits and vegetables':
             self.choose_fruit_vegetable()
 
         #self.right_guess = self.right_guess + ("_" * len(self.answer))
         for i in range(len(self.answer)) :
-            self.right_guess.append("_")
+            self.right_guess.append("_ ")
         return self.right_guess
 
     def choose_sport(self) :
@@ -54,6 +54,10 @@ class Hangman :
 
     #function for guessing a letter
     def place_mark(self, letter) :
+        if letter == 'start':
+            return self.right_guess
+
+
         if self.game_over :
             return self.right_guess
         is_letter_right = False
@@ -94,11 +98,11 @@ class Hangman :
         return (self.number_of_wrong_guesses < 6)
 
     def get_current_player(self) :
-        return self.previous_wrong_guesses
+        game_info = [self.topic, self.previous_wrong_guesses]
+        return game_info
 
     def get_board(self) :
-        game_info = [self.topic, self.right_guess]
-        return game_info
+        return self.right_guess
 
     def reset(self) :
         self.game_over = False
