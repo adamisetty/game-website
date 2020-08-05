@@ -40,8 +40,8 @@ class Matching:
             self.old_positions.append(self.second_pos)
         else:
             self.strikes += 1
-            self.blank_board[self.first_pos] = "_"  # Hides the word
-            self.blank_board[self.second_pos] = "_"
+            self.blank_board[self.first_pos] = "-"  # Hides the word
+            self.blank_board[self.second_pos] = "-"
         return self.blank_board
 
     def check_game_over(self):
