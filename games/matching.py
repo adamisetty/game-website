@@ -7,7 +7,7 @@ class Matching:
         self.current_matches = 0
         self.strikes = 0
         self.old_positions = []
-        self.chosen_positions = []
+        self.chosen_positions = [0, 0]
         self.first_pos = 0
         self.second_pos = 0
         self.original_board = ['Blimey!', 'Blimey!', 'Rubbish!', 'Rubbish!', 'Minging!', 'Minging!', 'Cheerio!',

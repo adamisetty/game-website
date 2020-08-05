@@ -24,6 +24,8 @@ class MatchingBoard extends React.Component {
            tiles: Array(16).fill(null)
        };
     this.firstWinningIndex = 0;
+    this.positionString = "";
+    this.timesClicked = 0;
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'matching'});
     //console.log("before");
@@ -32,30 +34,18 @@ class MatchingBoard extends React.Component {
    }
 
    async handleClick(i) {
-    try {
-      var game_data = await this.myAPI.endpoints.matching.make_turn({game: 'matching'}, {position: i});
-      console.log(typeof (game_data.data["games_data"][0]["board"]));
-      const tiles = this.state.tiles.slice();
-
-      for (let index = 0; index < 16; index++) {
-        if (game_data.data["games_data"][0]["board"][index] == 'X') {
-            this.firstWinningIndex = index;
-            tiles[index] = game_data.data["games_data"][0]["winner"][index];
-            break;
-        }
-      }
-//      if (!(game_data.data["games_data"][0]["isWinner"] == "true")) {
-//        tiles[i] = game_data.data["games_data"][0]["board"][i];
-//      }
-      this.setState({tiles: tiles});
-    } catch (error) {
-      console.log("error");
-    }
+   var first_position = i;
+   this.positionString = first_position.toString();
+   this.positionString = this.positionString.concat("-");
+   this.timesClicked++;
   }
 
   async handleSecondClick(i) {
+    var second_position = i;
+    this.positionString = this.positionString.concat(second_position.toString());
+    console.log(this.positionString);
     try {
-      var game_data = await this.myAPI.endpoints.matching.make_turn({game: 'matching'}, {position: i});
+      var game_data = await this.myAPI.endpoints.matching.make_turn({game: 'matching'}, {position: this.positionString});
       console.log(typeof (game_data.data["games_data"][0]["board"]));
       const tiles = this.state.tiles.slice();
       console.log(game_data.data["games_data"][0]["winner"]);
@@ -82,7 +72,7 @@ class MatchingBoard extends React.Component {
            <Matching
                value = {this.state.tiles[i]}
                onClick={() => this.handleClick(i)}
-               onClick={() => this.handleSecondClick(i)} // don't know if this works :/
+               onClick={() => this.handleSecondClick(i)}
            />
        );
    }
