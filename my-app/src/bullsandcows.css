@@ -1,0 +1,87 @@
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 20px;
+    background-color: #FFFFFF;
+  }
+  
+  ol, ul {
+    padding-left: 30px;
+  }
+  
+  .board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  .status {
+    margin-bottom: 20px;
+  }
+  
+  .number {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 60px;
+    height: 60px;
+    margin-right: 10px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    color: #944c00;
+    width: 60px;
+  }
+  
+  .number:focus {
+    outline: none;
+  }
+  
+  .bullsandcows-title {
+     text-align:center;
+     font-size: 70px;
+     color: #944c00;
+  }
+
+  .current-guess {
+    text-align:center;
+    font-size: 40px;
+    color: #944c00;
+ }
+  
+  .kbd-navigation .square:focus {
+    background: #ddd;
+  }
+  
+  .game {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .game-info {
+    margin-left: 20px;
+  }
+  
+  .row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  .submit {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 60px;
+    height: 60px;
+    margin-right: 10px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    color: #944c00;
+    width: 150px;
+  }
+  
