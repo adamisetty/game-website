@@ -7,7 +7,7 @@ const flaskApiUrl = "http://127.0.0.1:5000";
 class GuessArea extends React.Component {
     render() {
         return (
-            <button className="bullsandcows-submit"
+            <button className="current-guess"
                     value=''>
                 {this.props.value}
             </button>
@@ -60,32 +60,44 @@ class BullsAndCowsBoard extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            guess:""
+            guess:''
         };
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'bullsandcows'});
     this.myAPI.endpoints.bullsandcows.create_game({game: 'bullsandcows'});
     }
 
-    async handleNumberClick(i) {
-        if (this.state.guess.length < 4) {
-            this.state.guess = this.state.guess + i; 
+    isDuplicates(num) {
+        if (this.state.guess.length === 0) {
+            return false;
+        }
+        for (let i = 0; i < this.state.guess.length; i++) {
+            if (this.state.guess[i] === num) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    async handleNumberClick(num) { 
+        var isDuplicate = this.isDuplicates(num);
+        if ((this.state.guess.length < 4) && (!isDuplicate)) {
+            this.state.guess = this.state.guess + num; 
         }
         var guess = this.state.guess;
         this.setState({guess: guess});
-        //console.log(this.state.guess);
     }
 
     async handleSubmitClick() {
-        //make guess
-        //this.state.guess.setState('');
-        //this.setState({guess:''});
-        console.log('hello');
+        var guess = this.state.guess;
+        var game_data = await this.myAPI.endpoints.bullsandcows.make_turn({game: 'bullsandcows'}, {position: guess});
+        this.setState({guess:''});
+        console.log(game_data.data["games_data"][0]["winner"]);
+        console.log(game_data.data["games_data"][0]["board"]);
     }
 
     async handleClearClick() {
-        //this.setState({guess: ''});
-        console.log('guess', this.state.guess);
+        this.setState({guess: ''});
     }
 
     renderNumber(i) {
@@ -124,15 +136,13 @@ class BullsAndCowsBoard extends React.Component {
     render() { 
         return(
             <div>
-                {console.log('render')}
                 <div className="bullsandcows-title" style={{position: 'absolute', left: '50%', top: '0%',
                     transform: 'translate(-50%, 0%)'}}>
                     <p> Bulls and Cows </p>
                 </div>
-                <div style={{position: 'absolute', left: '50%', top: '20%',
+                <div style={{position: 'absolute', left: '50%', top: '25%',
                     transform: 'translate(-50%, 0%)'}}>
                     {this.renderGuessArea()}
-                    <p>the value of the score is: {this.state.guess}</p>
                 </div>
                 <div className="row" style={{position: 'absolute', left: '50%', top: '40%',
                     transform: 'translate(-50%, 0%)'}}>
