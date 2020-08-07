@@ -2,6 +2,14 @@ import React from 'react';
 import './hangman.css';
 import API from './api.js';
 
+import image_0 from "./hangman_images/hangman_0.png"
+import image_1 from "./hangman_images/hangman_1.png"
+import image_2 from "./hangman_images/hangman_2.png"
+import image_3 from "./hangman_images/hangman_3.png"
+import image_4 from "./hangman_images/hangman_4.png"
+import image_5 from "./hangman_images/hangman_5.png"
+import image_6 from "./hangman_images/hangman_6.png"
+
 const flaskApiUrl = "http://127.0.0.1:5000";
 
 
@@ -24,7 +32,8 @@ class HangmanBoard extends React.Component {
         
         super(props);
         this.state = {
-            letters: Array(26).fill(null)
+            letters: Array(26).fill(null),
+            images: [image_0, image_1, image_2, image_3, image_4, image_5, image_6]
         };
 
         this.myAPI = new API({url: flaskApiUrl});
@@ -33,6 +42,7 @@ class HangmanBoard extends React.Component {
         this.topic = " ";
         this.guesses = " ";
         this.previous_wrong_guesses = " ";
+        this.number_of_wrong_guesses = 0;
     }
 
     async handleClick(i) {
@@ -46,6 +56,7 @@ class HangmanBoard extends React.Component {
           } else {
             this.guesses = game_data.data["games_data"][0]["board"];
             this.previous_wrong_guesses = game_data.data["games_data"][0]["current-player"][1];
+            this.number_of_wrong_guesses = game_data.data["games_data"][0]["score"];
           }
           
           this.setState({letters: letters});
@@ -75,7 +86,9 @@ class HangmanBoard extends React.Component {
                 position: 'absolute', left: '50%', top: '50%',
                 transform: 'translate(-50%, -50%)'
                 }}></div>
-                
+                <div className="image">
+                    <img src={this.state.images[this.number_of_wrong_guesses]}></img>
+                </div>
                 <div className="topic">
                 <p> topic: {this.topic} </p>
                 </div>
