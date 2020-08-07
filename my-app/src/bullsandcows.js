@@ -7,7 +7,8 @@ const flaskApiUrl = "http://127.0.0.1:5000";
 class GuessArea extends React.Component {
     render() {
         return (
-            <button className="bullsandcows-submit">
+            <button className="bullsandcows-submit"
+                    value=''>
                 {this.props.value}
             </button>
         )
@@ -59,7 +60,7 @@ class BullsAndCowsBoard extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            guess:'0'
+            guess:""
         };
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'bullsandcows'});
@@ -83,14 +84,6 @@ class BullsAndCowsBoard extends React.Component {
     async handleClearClick() {
         //this.setState({guess: ''});
         console.log('guess', this.state.guess);
-    }
-
-    renderGuessArea() {
-        return (
-            <GuessArea
-            value = {this.state.guess}
-            />
-        )
     }
 
     renderNumber(i) {
@@ -118,9 +111,18 @@ class BullsAndCowsBoard extends React.Component {
         );
     }
 
+    renderGuessArea() {
+        return (
+            <GuessArea
+                value = {this.state.guess}
+            />
+        )
+    }
+
     render() { 
         return(
             <div>
+                {console.log('render')}
                 <div className="bullsandcows-title" style={{position: 'absolute', left: '50%', top: '0%',
                     transform: 'translate(-50%, 0%)'}}>
                     <p> Bulls and Cows </p>
@@ -128,6 +130,7 @@ class BullsAndCowsBoard extends React.Component {
                 <div style={{position: 'absolute', left: '50%', top: '20%',
                     transform: 'translate(-50%, 0%)'}}>
                     {this.renderGuessArea()}
+                    <p>the value of the score is: {this.state.guess}</p>
                 </div>
                 <div className="row" style={{position: 'absolute', left: '50%', top: '40%',
                     transform: 'translate(-50%, 0%)'}}>
@@ -148,7 +151,7 @@ class BullsAndCowsBoard extends React.Component {
                 {this.renderClearButton()}
                 </div>
         </div>
-        )
+        );
     }
 }
 
