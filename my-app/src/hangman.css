@@ -49,6 +49,7 @@ body {
     text-align: center;
     font-size: 20px;
     margin-top: 20px;
+    margin-left: 400px;
     color: #008080;
   }
   
@@ -56,6 +57,7 @@ body {
     text-align: center;
     font-size: 20px;
     margin-top: 40px;
+    margin-left: 400px;
     color: #008080;
   }
 
@@ -63,6 +65,7 @@ body {
     text-align: center;
     font-size: 20px;
     margin-top: 60px;
+    margin-left: 400px;
     color: #008080;
   }
   .kbd-navigation .square:focus {

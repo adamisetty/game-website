@@ -43,12 +43,12 @@ class HangmanBoard extends React.Component {
         this.guesses = " ";
         this.previous_wrong_guesses = " ";
         this.number_of_wrong_guesses = 0;
+        this.game_over = false;
     }
 
     async handleClick(i) {
         try {
           var game_data = await this.myAPI.endpoints.hangman.make_turn({game: 'hangman'}, {position: i});
-          console.log(typeof (game_data.data["games_data"][0]["board"]));
           const letters = this.state.letters.slice();
           if (i == 'start') {
             this.topic = game_data.data["games_data"][0]["current-player"][0];
@@ -57,6 +57,7 @@ class HangmanBoard extends React.Component {
             this.guesses = game_data.data["games_data"][0]["board"];
             this.previous_wrong_guesses = game_data.data["games_data"][0]["current-player"][1];
             this.number_of_wrong_guesses = game_data.data["games_data"][0]["score"];
+            this.is_game_over = game_data.data["games_data"][0]["isWinner"];
           }
           
           this.setState({letters: letters});
@@ -76,81 +77,98 @@ class HangmanBoard extends React.Component {
     }
 
     render() { 
-        return (
-            <div>
-                <div className="title">
-                <p> Hangman </p>
-                </div>
-                <div
-                style={{
-                position: 'absolute', left: '50%', top: '50%',
-                transform: 'translate(-50%, -50%)'
-                }}></div>
-                <div className="image">
-                    <img src={this.state.images[this.number_of_wrong_guesses]}></img>
-                </div>
-                <div className="topic">
-                <p> topic: {this.topic} </p>
-                </div>
-                <div
-                style={{
-                position: 'absolute', left: '50%', top: '50%',
-                transform: 'translate(-50%, -50%)'
-                }}></div>
-
-                <div className="guesses">
-                <p> {this.guesses} </p>
-                </div>
-                <div
-                style={{
-                position: 'absolute', left: '50%', top: '50%',
-                transform: 'translate(-50%, -50%)'
-                }}></div>
-
-                <div className="wrong_guesses">
-                <p> previous guesses: {this.previous_wrong_guesses} </p>
-                </div>
-                <div
-                style={{
-                position: 'absolute', left: '50%', top: '50%',
-                transform: 'translate(-50%, -50%)'
-                }}></div>
-
+        if (!this.is_game_over) {
+            return (
                 <div>
-                    {this.renderLetter('start')}
+                    {console.log(this.state.number_of_wrong_guesses)}
+                    <div className="title">
+                    <p> Hangman </p>
+                    </div>
+                    <div
+                    style={{
+                    position: 'absolute', left: '50%', top: '50%',
+                    transform: 'translate(-50%, -50%)'
+                    }}></div>
+                    <div className="image">
+                        <img src={this.state.images[this.number_of_wrong_guesses]}></img>
+                    </div>
+                    <div className="topic">
+                    <p> topic: {this.topic} </p>
+                    </div>
+                    <div
+                    style={{
+                    position: 'absolute', left: '50%', top: '50%',
+                    transform: 'translate(-50%, -50%)'
+                    }}></div>
+
+                    <div className="guesses">
+                    <p> {this.guesses} </p>
+                    </div>
+                    <div
+                    style={{
+                    position: 'absolute', left: '50%', top: '50%',
+                    transform: 'translate(-50%, -50%)'
+                    }}></div>
+
+                    <div className="wrong_guesses">
+                    <p> previous guesses: {this.previous_wrong_guesses} </p>
+                    </div>
+                    <div
+                    style={{
+                    position: 'absolute', left: '50%', top: '50%',
+                    transform: 'translate(-50%, -50%)'
+                    }}></div>
+                    <div>
+                        {this.renderLetter('start')}
+                    </div>
+                    <div className="letter-row">
+                    {this.renderLetter('a')}
+                    {this.renderLetter('b')}
+                    {this.renderLetter('c')}
+                    {this.renderLetter('d')}
+                    {this.renderLetter('e')}
+                    {this.renderLetter('f')}
+                    {this.renderLetter('g')}
+                    {this.renderLetter('h')}
+                    {this.renderLetter('i')}
+                    {this.renderLetter('j')}
+                    {this.renderLetter('k')}
+                    {this.renderLetter('l')}
+                    {this.renderLetter('m')}
+                    </div>
+                    <div className="letter-row">
+                    {this.renderLetter('n')}
+                    {this.renderLetter('o')}
+                    {this.renderLetter('p')}
+                    {this.renderLetter('q')}
+                    {this.renderLetter('r')}
+                    {this.renderLetter('s')}
+                    {this.renderLetter('t')}
+                    {this.renderLetter('u')}
+                    {this.renderLetter('v')}
+                    {this.renderLetter('w')}
+                    {this.renderLetter('x')}
+                    {this.renderLetter('y')}
+                    {this.renderLetter('z')}
+                    </div>
+                </div>    
+            ); 
+        } else {
+            return (
+                <div>
+                {console.log("in else statement")}
+                <div className="image">
+                    <img src={this.state.images[6]}></img>
                 </div>
-                <div className="letter-row">
-                {this.renderLetter('a')}
-                {this.renderLetter('b')}
-                {this.renderLetter('c')}
-                {this.renderLetter('d')}
-                {this.renderLetter('e')}
-                {this.renderLetter('f')}
-                {this.renderLetter('g')}
-                {this.renderLetter('h')}
-                {this.renderLetter('i')}
-                {this.renderLetter('j')}
-                {this.renderLetter('k')}
-                {this.renderLetter('l')}
-                {this.renderLetter('m')}
+                <p>
+                    you lost :( 
+                </p>
+                <p>
+                    the answer was 
+                </p>
                 </div>
-                <div className="letter-row">
-                {this.renderLetter('n')}
-                {this.renderLetter('o')}
-                {this.renderLetter('p')}
-                {this.renderLetter('q')}
-                {this.renderLetter('r')}
-                {this.renderLetter('s')}
-                {this.renderLetter('t')}
-                {this.renderLetter('u')}
-                {this.renderLetter('v')}
-                {this.renderLetter('w')}
-                {this.renderLetter('x')}
-                {this.renderLetter('y')}
-                {this.renderLetter('z')}
-                </div>
-            </div>    
-        )    
+            );
+        }   
     }
 }
 
