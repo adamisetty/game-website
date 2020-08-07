@@ -30,9 +30,9 @@ class HangmanBoard extends React.Component {
         this.myAPI = new API({url: flaskApiUrl});
         this.myAPI.createEntity({name: 'hangman'});
         this.myAPI.endpoints.hangman.create_game({game: 'hangman'});
-        this.topic = "";
-        this.guesses = "";
-        this.previous_wrong_guesses = "";
+        this.topic = " ";
+        this.guesses = " ";
+        this.previous_wrong_guesses = " ";
     }
 
     async handleClick(i) {
@@ -67,6 +67,42 @@ class HangmanBoard extends React.Component {
     render() { 
         return (
             <div>
+                <div className="title">
+                <p> Hangman </p>
+                </div>
+                <div
+                style={{
+                position: 'absolute', left: '50%', top: '50%',
+                transform: 'translate(-50%, -50%)'
+                }}></div>
+                
+                <div className="topic">
+                <p> topic: {this.topic} </p>
+                </div>
+                <div
+                style={{
+                position: 'absolute', left: '50%', top: '50%',
+                transform: 'translate(-50%, -50%)'
+                }}></div>
+
+                <div className="guesses">
+                <p> {this.guesses} </p>
+                </div>
+                <div
+                style={{
+                position: 'absolute', left: '50%', top: '50%',
+                transform: 'translate(-50%, -50%)'
+                }}></div>
+
+                <div className="wrong_guesses">
+                <p> previous guesses: {this.previous_wrong_guesses} </p>
+                </div>
+                <div
+                style={{
+                position: 'absolute', left: '50%', top: '50%',
+                transform: 'translate(-50%, -50%)'
+                }}></div>
+
                 <div>
                     {this.renderLetter('start')}
                 </div>
@@ -99,15 +135,6 @@ class HangmanBoard extends React.Component {
                 {this.renderLetter('x')}
                 {this.renderLetter('y')}
                 {this.renderLetter('z')}
-                </div>
-                <div>
-                    {this.topic}
-                </div>
-                <div>
-                    {this.guesses}
-                </div>
-                <div>
-                    {this.previous_wrong_guesses}
                 </div>
             </div>    
         )    

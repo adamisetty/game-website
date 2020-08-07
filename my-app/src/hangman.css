@@ -22,16 +22,16 @@ body {
     background: #fff;
     border: 1px solid #999;
     float: left;
-    font-size: 70px;
+    font-size: 20px;
     font-weight: bold;
-    line-height: 100px;
-    height: 100px;
+    line-height: 50px;
+    height: 45px;
     margin-right: -1px;
-    margin-top: -1px;
+    margin-top: 200px;
     padding: 0;
     text-align: center;
     color: #008080;
-    width: 100px;
+    width: 45px;
   }
   
   .letters:focus {
@@ -40,10 +40,31 @@ body {
   
   .title {
      text-align:center;
-     font-size: 70px;
+     margin-top: 0px;
+     font-size: 40px;
      color: #008080;
   }
+
+  .topic {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 20px;
+    color: #008080;
+  }
   
+  .guesses {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 40px;
+    color: #008080;
+  }
+
+  .wrong_guesses {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 60px;
+    color: #008080;
+  }
   .kbd-navigation .square:focus {
     background: #ddd;
   }
