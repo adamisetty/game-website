@@ -33,7 +33,17 @@ class Submit extends React.Component {
 class InfoButton extends React.Component {
     render() {
         return (
-            <button className= "anagrams-submit">
+            <button className= "anagrams-word">
+                {this.props.value}
+            </button>
+        )
+    }
+}
+
+class StatusButton extends React.Component {
+    render() {
+        return (
+            <button className="anagrams-status">
                 {this.props.value}
             </button>
         )
@@ -48,7 +58,8 @@ class AnagramsBoard extends React.Component {
             letters: Array(6).fill('_'),
             o_board: Array(6).fill('_'),
             word:'',
-            score: 0
+            score: 0,
+            status:''
         };
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'anagrams'});
@@ -79,6 +90,11 @@ class AnagramsBoard extends React.Component {
         this.state.letters[i] = "";
         this.setState({letters: letters});
         console.log('word: ', this.state.word);
+
+        if (this.state.status != "") {
+            var status = "";
+            this.setState({status: status});
+        }
     }
 
     async handleSubmitClick() {
@@ -90,10 +106,27 @@ class AnagramsBoard extends React.Component {
             start_board[i] = this.state.o_board[i]; 
         }
         this.setState({letters: start_board});
-        var score = turn_data.data["games_data"][0]["score"];
+        const score = turn_data.data["games_data"][0]["score"];
         this.setState({score: score});
 
         console.log('score:', this.state.score);
+        var status = turn_data.data["games_data"][0]["current-player"];
+        this.changeStatus(status);
+    }
+
+    changeStatus(val) {
+        var status = "";
+        if (val == 0) {
+            status = "Invalid"
+        }
+        if (val == 1) {
+            status = "Correct"
+        }
+        if (val == 2) {
+            status = "Already found"
+        }
+        this.setState({status: status});
+        console.log(status);
     }
 
     renderTile(i) {
@@ -122,7 +155,6 @@ class AnagramsBoard extends React.Component {
                 />
             )   
         }
-
         if (val == "guess") {
             return (
                 <InfoButton
@@ -132,18 +164,31 @@ class AnagramsBoard extends React.Component {
         }
     }
 
+    renderStatusButton() {
+        return (
+            <StatusButton
+            value = {this.state.status}
+            />
+        )  
+    }
+
     render() { 
+        if (0 == 0) {
         return(
             <div>
                 <div className="anagrams-title">
                     <p> Anagrams </p>
                 </div>
                 <div style={{position: 'absolute', left: '50%', top: '50%',
-                    transform: 'translate(95%, -250%)'}}>
-                    {this.renderInfoButton("score")}  
+                    transform: 'translate(75%, -250%)'}}>
+                    {this.renderInfoButton("score")} 
                 </div>
-                <div style={{position: 'absolute', left: '50%', top: '50%',
-                    transform: 'translate(0%, 10%)'}}>
+                <div style={{position: 'absolute', left: '59%', top: '60%',
+                    transform: 'translate(75%, -250%)'}}>
+                    {this.renderStatusButton()}
+                </div>
+                <div className= "row" style={{position: 'absolute', left: '50%', top: '17%',
+                    transform: 'translate(-50%, 50%)'}}>
                     {this.renderInfoButton("guess")}    
                 </div>
                 <div className="row" style={{position: 'absolute', left: '50%', top: '50%',
@@ -161,6 +206,7 @@ class AnagramsBoard extends React.Component {
                 </div>
         </div>
         )
+    }
     }
 }
 

@@ -1,4 +1,5 @@
 from nltk.corpus import words as nltk_words
+from PyDictionary import PyDictionary
 import random
 import time
 
@@ -7,7 +8,7 @@ class Anagrams:
     def __init__(self):
         self.score = 0
         self.previous_words = []
-        self.dictionary = dict.fromkeys(nltk_words.words(), None)
+        self.dictionary = PyDictionary()
         self.letters = []
         self.status = 0
         self.curr_word = ''
@@ -21,6 +22,7 @@ class Anagrams:
             vowel_num = 2
         else: 
             vowel_num = 3
+        commons = 'rstlnd'
         vowels = 'aeiou'
         consonants = 'bcdfghjklmnprstvwxyz'
         letter_count = 0
@@ -35,25 +37,19 @@ class Anagrams:
     def place_mark(self, word):
         #self.curr_word = word
         if word in self.previous_words:
-            print("AlREADY FOUND")
             self.status = 2
             return self.letters 
         if len(word) <= 2 or len(word) > 6:
-            print("TOO SHORT")
             self.status = 0
             return self.letters
-        
-        try:
-            self.dictionary[word]
-            self.previous_words.append(word)
-            self.calc_score(len(word))
-            print("CALCULATED SCOREEEEEE")
-            self.status = 1
-            return self.letters
-        except KeyError:
+        if self.dictionary.meaning(word) == None:
             self.calc_score(0)
             self.status = 0
-            return self.letters
+        else:
+            self.previous_words.append(word)
+            self.calc_score(len(word))
+            self.status = 1
+        return self.letters
 
     def calc_score(self, length):
         # will have len = 0, if invalid word
