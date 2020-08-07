@@ -71,6 +71,8 @@ class BullsAndCowsBoard extends React.Component {
         if (this.state.guess.length < 4) {
             this.state.guess = this.state.guess + i; 
         }
+        var guess = this.state.guess;
+        this.setState({guess: guess});
         //console.log(this.state.guess);
     }
 
@@ -150,7 +152,7 @@ class BullsAndCowsBoard extends React.Component {
                 {this.renderSubmitButton()}
                 {this.renderClearButton()}
                 </div>
-        </div>
+            </div>
         );
     }
 }
