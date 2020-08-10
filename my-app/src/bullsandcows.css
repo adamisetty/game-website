@@ -44,6 +44,12 @@ body {
      color: #944c00;
   }
 
+  .bullsandcows-gameover {
+    text-align:center;
+    font-size: 30px;
+    color: #944c00;
+ }
+
   .current-guess {
     background: #fff;
     border: 0px solid #999;
