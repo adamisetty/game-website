@@ -59,7 +59,9 @@ class AnagramsBoard extends React.Component {
             o_board: Array(6).fill('_'),
             word:'',
             score: 0,
-            status:''
+            status:'',
+            time: 0,
+            game_over: false
         };
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'anagrams'});
@@ -112,6 +114,12 @@ class AnagramsBoard extends React.Component {
         console.log('score:', this.state.score);
         var status = turn_data.data["games_data"][0]["current-player"];
         this.changeStatus(status);
+
+        console.log(turn_data.data["games_data"][0]["isWinner"]);
+        if (turn_data.data["games_data"][0]["isWinner"]) {
+            this.state.game_over = true;
+            //this.setState({game_over: true});
+        }
     }
 
     changeStatus(val) {
@@ -173,7 +181,7 @@ class AnagramsBoard extends React.Component {
     }
 
     render() { 
-        if (0 == 0) {
+        if (this.state.game_over == false) {
         return(
             <div>
                 <div className="anagrams-title">
@@ -205,6 +213,19 @@ class AnagramsBoard extends React.Component {
                 {this.renderSubmitButton()}
                 </div>
         </div>
+        )
+    }
+    else {
+        return (
+           <div>
+               <div className="anagrams-title">
+                    <p> Game Over! </p>
+                </div>
+                <div className= "row" style={{position: 'absolute', left: '50%', top: '50%',
+                    transform: 'translate(-50%, -150%)'}}>
+                    {this.renderInfoButton("score")} 
+                </div>
+           </div> 
         )
     }
     }

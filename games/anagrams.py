@@ -1,4 +1,5 @@
-from nltk.corpus import words as nltk_words
+#from nltk.corpus import words as nltk_words
+import nltk
 from PyDictionary import PyDictionary
 import random
 import time
@@ -9,6 +10,7 @@ class Anagrams:
         self.score = 0
         self.previous_words = []
         self.dictionary = PyDictionary()
+        self.english_vocab = set(w.lower() for w in nltk.corpus.words.words())
         self.letters = []
         self.status = 0
         self.curr_word = ''
@@ -39,12 +41,16 @@ class Anagrams:
         if word in self.previous_words:
             self.status = 2
             return self.letters 
-        if len(word) <= 2 or len(word) > 6:
+        elif len(word) <= 2 or len(word) > 6:
             self.status = 0
             return self.letters
-        if self.dictionary.meaning(word) == None:
+        elif self.dictionary.meaning(word) == None:
             self.calc_score(0)
             self.status = 0
+        elif word in self.english_vocab:
+            self.previous_words.append(word)
+            self.calc_score(len(word))
+            self.status = 1
         else:
             self.previous_words.append(word)
             self.calc_score(len(word))
