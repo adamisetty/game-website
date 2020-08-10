@@ -2,6 +2,11 @@ import React from 'react';
 import './anagrams.css';
 import API from './api.js';
 
+import { AgGridReact } from 'ag-grid-react';
+
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+
 const flaskApiUrl = "http://127.0.0.1:5000";
 
 class Letter extends React.Component {
@@ -61,7 +66,10 @@ class AnagramsBoard extends React.Component {
             score: 0,
             status:'',
             time: 0,
-            game_over: false
+            game_over: false,
+            columnDefs: [
+                { headerName: "Words", field: "word" }],
+            rowData: []
         };
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'anagrams'});
@@ -91,7 +99,7 @@ class AnagramsBoard extends React.Component {
         const letters = this.state.letters;
         this.state.letters[i] = "";
         this.setState({letters: letters});
-        console.log('word: ', this.state.word);
+        //console.log('word: ', this.state.word);
 
         if (this.state.status != "") {
             var status = "";
@@ -101,8 +109,8 @@ class AnagramsBoard extends React.Component {
 
     async handleSubmitClick() {
         var turn_data = await this.myAPI.endpoints.anagrams.make_turn({game: 'anagrams'}, {position: this.state.word});
+        const temp_word = this.state.word;
         this.state.word = "";
-
         const start_board = Array(6).fill('_');
         for (let i = 0; i < 6; i++) {
             start_board[i] = this.state.o_board[i]; 
@@ -113,28 +121,32 @@ class AnagramsBoard extends React.Component {
 
         console.log('score:', this.state.score);
         var status = turn_data.data["games_data"][0]["current-player"];
-        this.changeStatus(status);
+        this.changeStatus(status, temp_word);
 
-        console.log(turn_data.data["games_data"][0]["isWinner"]);
+        //console.log(turn_data.data["games_data"][0]["isWinner"]);
         if (turn_data.data["games_data"][0]["isWinner"]) {
             this.state.game_over = true;
             //this.setState({game_over: true});
         }
     }
 
-    changeStatus(val) {
+    changeStatus(val, temp_word) {
         var status = "";
         if (val == 0) {
             status = "Invalid"
         }
         if (val == 1) {
             status = "Correct"
+            console.log("word: ", temp_word);
+            var guesses = this.state.rowData;
+            const newData = guesses.concat({word: temp_word});
+            this.setState({rowData: newData});
         }
         if (val == 2) {
             status = "Already found"
         }
         this.setState({status: status});
-        console.log(status);
+        //console.log(status);
     }
 
     renderTile(i) {
@@ -224,6 +236,15 @@ class AnagramsBoard extends React.Component {
                 <div className= "row" style={{position: 'absolute', left: '50%', top: '50%',
                     transform: 'translate(-50%, -150%)'}}>
                     {this.renderInfoButton("score")} 
+                </div>
+                <div>
+                <div className="ag-theme-alpine" style={ {height: '200px', width: '200px', position: 'absolute', left: '50%', top: '90%',
+                    transform: 'translate(-50%, -150%)'} }>
+            <AgGridReact
+                columnDefs={this.state.columnDefs}
+                rowData={this.state.rowData}>
+            </AgGridReact>
+                </div>
                 </div>
            </div> 
         )

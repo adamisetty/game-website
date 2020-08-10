@@ -28,12 +28,29 @@ class Anagrams:
         vowels = 'aeiou'
         consonants = 'bcdfghjklmnprstvwxyz'
         letter_count = 0
-        while letter_count < vowel_num:
-            self.letters.append(random.choice(vowels))
-            letter_count = letter_count + 1
-        while letter_count < 6:
-            self.letters.append(random.choice(consonants))
-            letter_count = letter_count + 1
+        self.letters.append(random.choice(commons))
+        while len(self.letters) < vowel_num:
+            letter = random.choice(vowels)
+            if letter in self.letters:
+                temp_l = self.letters.copy()
+                temp_l.remove(letter)
+                if not (letter in temp_l):
+                    self.letters.append(letter)
+                    letter_count = letter_count + 1
+            else:
+                self.letters.append(letter)
+                letter_count = letter_count + 1
+        while len(self.letters) < 6:
+            letter = random.choice(consonants)
+            if letter in self.letters:
+                temp_l = self.letters
+                temp_l.remove(letter)
+                if not (letter in temp_l):
+                    self.letters.append(letter)
+                    letter_count = letter_count + 1
+            else:
+                self.letters.append(letter)
+                letter_count = letter_count + 1
         return 
     
     def place_mark(self, word):
