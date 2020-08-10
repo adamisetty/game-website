@@ -1,6 +1,10 @@
 import React from 'react';
 import './bullsandcows.css';
 import API from './api.js';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+// npm install --save ag-grid-community ag-grid-react
 
 const flaskApiUrl = "http://127.0.0.1:5000";
 
@@ -63,7 +67,12 @@ class BullsAndCowsBoard extends React.Component {
             guess:'',
             gameover: false,
             secretcode: '',
-            score: ''
+            score: '',
+            columnDefs: [
+                { headerName: "Guess", field: "guess" },
+                { headerName: "Bulls", field: "bulls" },
+                { headerName: "Cows", field: "cows" }],
+              rowData: []
         };
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'bullsandcows'});
@@ -112,9 +121,14 @@ class BullsAndCowsBoard extends React.Component {
         var guess = this.state.guess;
         var game_data = await this.myAPI.endpoints.bullsandcows.make_turn({game: 'bullsandcows'}, {position: guess});
         this.setState({guess:''});
+        // console.log(game_data.data["games_data"][0]["winner"]);
         console.log(game_data.data["games_data"][0]["winner"]);
-        console.log(game_data.data["games_data"][0]["isWinner"]);
-        console.log(game_data.data["games_data"][0]["board"]);
+        var last_turn = game_data.data["games_data"][0]["board"].length - 1;
+        var bulls = game_data.data["games_data"][0]["board"][last_turn][1];
+        var cows = game_data.data["games_data"][0]["board"][last_turn][2];
+        var guesses = this.state.rowData;
+        const newData = guesses.concat({ guess: guess, bulls: bulls, cows: cows });
+        this.setState({rowData: newData});
         if (game_data.data["games_data"][0]["isWinner"] === true) {
             var code = game_data.data["games_data"][0]["winner"];
             var score = this.formatTime(parseInt(game_data.data["games_data"][0]["score"]));
@@ -169,7 +183,11 @@ class BullsAndCowsBoard extends React.Component {
                         transform: 'translate(-50%, 0%)'}}>
                         <p> Bulls and Cows </p>
                     </div>
-                    <div style={{position: 'absolute', left: '50%', top: '25%',
+                    <div style={{position: 'absolute', left: '50%', top: '20%',
+                        transform: 'translate(-50%, 0%)'}}>
+                        <p> Try to guess the 4 digit secret code. All guesses must contain 4 different numbers. A bull means you have the correct digit in the correct spot. A cow means you have a correct digit but not in the correct position. </p>
+                    </div>
+                    <div style={{position: 'absolute', left: '50%', top: '28%',
                         transform: 'translate(-50%, 0%)'}}>
                         {this.renderGuessArea()}
                     </div>
@@ -190,6 +208,13 @@ class BullsAndCowsBoard extends React.Component {
                         transform: 'translate(-50%, 10%)'}}>
                     {this.renderSubmitButton()}
                     {this.renderClearButton()}
+                    </div>
+                    <div className="ag-theme-alpine" style={{height: '200px', width: '600px', position: 'absolute', left: '50%', top: '65%',
+                    transform: 'translate(-50%, 0%)'} }>
+                    <AgGridReact
+                        columnDefs={this.state.columnDefs}
+                        rowData={this.state.rowData}>
+                    </AgGridReact>
                     </div>
                 </div>
             );
