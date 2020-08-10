@@ -52,7 +52,7 @@ class Matching:
         return self.game_over
 
     def get_winner(self):
-        return self.original_board
+        return self.hidden_board
 
     def get_current_player(self):
         return self.current_player
