@@ -27,7 +27,10 @@ class MatchingBoard extends React.Component {
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'matching'});
     this.timesClicked = 1;
+    this.firstCardClicked = -1;
+    this.secondCardClicked = -1;
     this.isClickOdd = true;
+    this.isX = false;
     //console.log("before");
     this.myAPI.endpoints.matching.create_game({game: 'matching'});
     //console.log("after");
@@ -35,6 +38,7 @@ class MatchingBoard extends React.Component {
 
    async handleClick(i) {
    if (this.timesClicked % 2 != 0) {
+   this.firstCardClicked = i;
    this.isClickOdd = false
    var first_position = i;
    this.positionString = first_position.toString();
@@ -48,9 +52,18 @@ class MatchingBoard extends React.Component {
    }
   }
 
-  async handleSecondClick(i) {
+  async timeFunction(tiles, index, time) {
+  while (this.isX && new Date().getTime() > time + 2000) {
+        console.log(new Date().getTime());
+        tiles[index] = 'X';
+        this.isX = false;
+        }
+  }
 
-    console.log("in Secondclick")
+  async handleSecondClick(i) {
+    this.secondCardClicked = i;
+    if (this.secondCardClicked != this.firstCardClicked) {
+    console.log("in Secondclick");
     this.timesClicked++
     var second_position = i;
     this.positionString = this.positionString.concat(second_position.toString());
@@ -63,15 +76,24 @@ class MatchingBoard extends React.Component {
 
       for (let index = 0; index < 16; index++) {
         if (game_data.data["games_data"][0]["board"][index] == 'X') {
-            tiles[index] = game_data.data["games_data"][0]["winner"][index];
+        tiles[index] = game_data.data["games_data"][0]["winner"][index];
+        const unixTime = Math.floor(Date.now());
+        console.log(unixTime);
+        await timeFunction(tiles, index, unixTime);
 
+//            setTimeout(() => {
+//               tiles[index] = 'X';
+//            }, 2000);
         }
       }
       this.setState({tiles: tiles});
     } catch (error) {
       console.log("error");
     }
+    }
   }
+
+
 
 
    renderCard(i) {
