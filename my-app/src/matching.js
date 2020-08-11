@@ -79,7 +79,7 @@ class MatchingBoard extends React.Component {
         tiles[index] = game_data.data["games_data"][0]["winner"][index];
         const unixTime = Math.floor(Date.now());
         console.log(unixTime);
-        await timeFunction(tiles, index, unixTime);
+        //await timeFunction(tiles, index, unixTime);
 
 //            setTimeout(() => {
 //               tiles[index] = 'X';

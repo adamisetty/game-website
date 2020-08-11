@@ -17,7 +17,7 @@ class Letter extends React.Component {
     render() {
         return (
             <button
-                className="letters"
+                className="hangman_letters"
                 onClick={() => this.props.onClick()}
             >
                 {this.props.value}
@@ -43,7 +43,8 @@ class HangmanBoard extends React.Component {
         this.guesses = " ";
         this.previous_wrong_guesses = " ";
         this.number_of_wrong_guesses = 0;
-        this.game_over = false;
+        this.is_game_over = false;
+        this.correct_answer = " ";
     }
 
     async handleClick(i) {
@@ -58,6 +59,7 @@ class HangmanBoard extends React.Component {
             this.previous_wrong_guesses = game_data.data["games_data"][0]["current-player"][1];
             this.number_of_wrong_guesses = game_data.data["games_data"][0]["score"];
             this.is_game_over = game_data.data["games_data"][0]["isWinner"];
+            this.correct_answer = game_data.data["games_data"][0]["winner"];
           }
           
           this.setState({letters: letters});
@@ -81,7 +83,7 @@ class HangmanBoard extends React.Component {
             return (
                 <div>
                     {console.log(this.state.number_of_wrong_guesses)}
-                    <div className="title">
+                    <div className="hangman_title">
                     <p> Hangman </p>
                     </div>
                     <div
@@ -89,9 +91,6 @@ class HangmanBoard extends React.Component {
                     position: 'absolute', left: '50%', top: '50%',
                     transform: 'translate(-50%, -50%)'
                     }}></div>
-                    <div className="image">
-                        <img src={this.state.images[this.number_of_wrong_guesses]}></img>
-                    </div>
                     <div className="topic">
                     <p> topic: {this.topic} </p>
                     </div>
@@ -118,6 +117,9 @@ class HangmanBoard extends React.Component {
                     position: 'absolute', left: '50%', top: '50%',
                     transform: 'translate(-50%, -50%)'
                     }}></div>
+                    <div className="image">
+                        <img src={this.state.images[this.number_of_wrong_guesses]}></img>
+                    </div>
                     <div>
                         {this.renderLetter('start')}
                     </div>
@@ -153,22 +155,37 @@ class HangmanBoard extends React.Component {
                     </div>
                 </div>    
             ); 
-        } else {
+        } else if (this.number_of_wrong_guesses >= 6) {
             return (
                 <div>
                 {console.log("in else statement")}
-                <div className="image">
-                    <img src={this.state.images[6]}></img>
-                </div>
+                <div className="game_over_info">
                 <p>
                     you lost :( 
                 </p>
                 <p>
-                    the answer was 
+                    the answer was {this.correct_answer}
                 </p>
+                <div className="image">
+                    <img src={this.state.images[6]}></img>
+                </div>
+                </div>
                 </div>
             );
-        }   
+        } else {
+            return (
+                <div>
+                <div className="image">
+                    <img src={this.state.images[this.number_of_wrong_guesses]}></img>
+                </div>
+                <div className="game_over_info">
+                <p>
+                    great job! you won :)
+                </p>
+                </div>
+                </div>
+            )
+        } 
     }
 }
 

@@ -95,7 +95,7 @@ class Hangman :
         return self.number_of_wrong_guesses
 
     def get_winner(self) :
-        return (self.number_of_wrong_guesses < 6)
+        return self.answer
 
     def get_current_player(self) :
         game_info = [self.topic, self.previous_wrong_guesses]
