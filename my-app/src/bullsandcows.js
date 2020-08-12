@@ -4,9 +4,24 @@ import API from './api.js';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import ReactDOM from 'react-dom';
+import App from './App';
+// import Button from './App';
+
 // npm install --save ag-grid-community ag-grid-react
 
 const flaskApiUrl = "http://127.0.0.1:5000";
+
+class HomeButton extends React.Component {
+    render() {
+        return (
+        <button className='bullsandcows-home'
+            onClick={() => this.props.onClick()}>
+                {'home'}
+        </button>
+        );
+    }
+}
 
 class GuessArea extends React.Component {
     render() {
@@ -139,8 +154,27 @@ class BullsAndCowsBoard extends React.Component {
         }
     }
 
+
     async handleClearClick() {
         this.setState({guess: ''});
+    }
+
+    async handleHomeClick() {
+        ReactDOM.render(
+            <React.StrictMode>
+              <App />
+            </React.StrictMode>,
+            document.getElementById('root')
+          );
+    }
+
+    renderHomeButton() {
+        return (
+            <HomeButton
+                //className='bullsandcows'
+                onClick={() => this.handleHomeClick()}
+            />
+        );
     }
 
     renderNumber(i) {
@@ -180,6 +214,9 @@ class BullsAndCowsBoard extends React.Component {
         if(this.state.gameover === false) {
             return(
                 <div>
+                    <div>
+                        {this.renderHomeButton()}
+                    </div>
                     <div className="bullsandcows-title" style={{position: 'absolute', left: '50%', top: '-2%',
                         transform: 'translate(-50%, 0%)'}}>
                         <p> Bulls and Cows </p>

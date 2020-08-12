@@ -2,8 +2,6 @@ import React from 'react';
 import './matching.css';
 import API from './api.js';
 
-import codswallop from "./matching_images/codswallop.png"
-
 const flaskApiUrl = "http://127.0.0.1:5000";
 
 class Matching extends React.Component {
