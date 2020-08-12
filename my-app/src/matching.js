@@ -1,8 +1,21 @@
 import React from 'react';
 import './matching.css';
 import API from './api.js';
+import ReactDOM from 'react-dom';
+import App from './App';
 
 const flaskApiUrl = "http://127.0.0.1:5000";
+
+class HomeButton extends React.Component {
+  render() {
+      return (
+      <button className='matching-home'
+          onClick={() => this.props.onClick()}>
+              {'home'}
+      </button>
+      );
+  }
+}
 
 class Matching extends React.Component {
     render() {
@@ -48,6 +61,23 @@ class MatchingBoard extends React.Component {
             }, 2000);
         });
    }
+
+   async handleHomeClick() {
+    ReactDOM.render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>,
+        document.getElementById('root')
+      );
+}
+
+renderHomeButton() {
+    return (
+        <HomeButton
+            onClick={() => this.handleHomeClick()}
+        />
+    );
+}
 
    async handleClick(i) {
    if (this.timesClicked % 2 != 0) {
@@ -116,6 +146,9 @@ class MatchingBoard extends React.Component {
         if (this.state.gameOver === false) {
         return (
            <div>
+              <div>
+              {this.renderHomeButton()}
+              </div>
            <div className="title">
            <p> Matching </p>
            </div>
@@ -154,6 +187,9 @@ class MatchingBoard extends React.Component {
        } else {
             return(
                 <div>
+                  <div>
+                        {this.renderHomeButton()}
+                    </div>
                     <div className="Matching" style={{position: 'absolute', left: '50%', top: '-2%',
                         transform: 'translate(-50%, 0%)'}}>
                         <p> Matching </p>

@@ -1,6 +1,8 @@
 import React from 'react';
 import './hangman.css';
 import API from './api.js';
+import ReactDOM from 'react-dom';
+import App from './App';
 
 import image_0 from "./hangman_images/hangman_0.png"
 import image_1 from "./hangman_images/hangman_1.png"
@@ -11,6 +13,17 @@ import image_5 from "./hangman_images/hangman_5.png"
 import image_6 from "./hangman_images/hangman_6.png"
 
 const flaskApiUrl = "http://127.0.0.1:5000";
+
+class HomeButton extends React.Component {
+    render() {
+        return (
+        <button className='hangman-home'
+            onClick={() => this.props.onClick()}>
+                {'home'}
+        </button>
+        );
+    }
+}
 
 
 class Letter extends React.Component {
@@ -45,6 +58,23 @@ class HangmanBoard extends React.Component {
         this.number_of_wrong_guesses = 0;
         this.is_game_over = false;
         this.correct_answer = " ";
+    }
+
+    async handleHomeClick() {
+        ReactDOM.render(
+            <React.StrictMode>
+              <App />
+            </React.StrictMode>,
+            document.getElementById('root')
+          );
+    }
+
+    renderHomeButton() {
+        return (
+            <HomeButton
+                onClick={() => this.handleHomeClick()}
+            />
+        );
     }
 
     async handleClick(i) {
@@ -83,6 +113,9 @@ class HangmanBoard extends React.Component {
             return (
                 <div>
                     {console.log(this.state.number_of_wrong_guesses)}
+                    <div>
+                        {this.renderHomeButton()}
+                    </div>
                     <div className="hangman_title">
                     <p> Hangman </p>
                     </div>
@@ -158,6 +191,9 @@ class HangmanBoard extends React.Component {
         } else if (this.number_of_wrong_guesses >= 6) {
             return (
                 <div>
+                    <div>
+                        {this.renderHomeButton()}
+                    </div>
                 {console.log("in else statement")}
                 <div className="game_over_info">
                 <p>

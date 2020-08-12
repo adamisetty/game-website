@@ -1,33 +1,21 @@
 import React from 'react';
 import './tictactoe.css';
 import API from './api.js';
+import ReactDOM from 'react-dom';
+import App from './App';
 
 const flaskApiUrl = "http://127.0.0.1:5000";
 
-//import square from './gameboard.css';
-
-// function Game() {
-// return
-// ( <React.Fragment>
-// <div id="errors" style="
-//  background: #c00;
-//  color: #fff;
-//  display: none;
-//  margin: -20px -20px 20px;
-//  padding: 20px;
-//  white-space: pre-wrap;
-// "> <h1> hello </h1> </div>
-// <div id="game"></div>
-// </React.Fragment>);
-// }
-
-// function Tile(props) {
-//    return (
-//    <button className="tile" onClick={props.onClick()}>
-//        {props.value}
-//    </button>
-//    );
-// }
+class HomeButton extends React.Component {
+  render() {
+      return (
+      <button className='tictactoe-home'
+          onClick={() => this.props.onClick()}>
+              {'home'}
+      </button>
+      );
+  }
+}
 
 
 class Tile extends React.Component {
@@ -58,6 +46,23 @@ class TicTacToeBoard extends React.Component {
     //console.log("after");
    }
 
+   async handleHomeClick() {
+    ReactDOM.render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>,
+        document.getElementById('root')
+      );
+}
+
+renderHomeButton() {
+    return (
+        <HomeButton
+            onClick={() => this.handleHomeClick()}
+        />
+    );
+}
+
    async handleClick(i) {
     try {
       var game_data = await this.myAPI.endpoints.tictactoe.make_turn({game: 'tictactoe'}, {position: i});
@@ -85,6 +90,9 @@ class TicTacToeBoard extends React.Component {
    render() {
        return (
            <div>
+             <div>
+                {this.renderHomeButton()}
+            </div>
            <div className="title">
            <p> Tic Tac Toe </p>
            </div>

@@ -56,3 +56,19 @@ ol, ul {
 .game-info {
   margin-left: 20px;
 }
+
+.tictactoe-home {
+  background: rgb(255, 255, 255);
+  border: 1px solid #999;
+  float: left;
+  font-size: 27px;
+  font-weight: bold;
+  line-height: 0px;
+  height: 40px;
+  margin-right: 10px;
+  margin-top: 0px;
+  padding: 0;
+  text-align: center;
+  color: #008080;
+  width: 100px;
+}

@@ -6,8 +6,6 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import ReactDOM from 'react-dom';
 import App from './App';
-// import Button from './App';
-
 // npm install --save ag-grid-community ag-grid-react
 
 const flaskApiUrl = "http://127.0.0.1:5000";
@@ -171,7 +169,6 @@ class BullsAndCowsBoard extends React.Component {
     renderHomeButton() {
         return (
             <HomeButton
-                //className='bullsandcows'
                 onClick={() => this.handleHomeClick()}
             />
         );
@@ -259,6 +256,9 @@ class BullsAndCowsBoard extends React.Component {
         } else {
             return(
                 <div>
+                    <div>
+                        {this.renderHomeButton()}
+                    </div>
                     <div className="bullsandcows-title" style={{position: 'absolute', left: '50%', top: '-2%',
                         transform: 'translate(-50%, 0%)'}}>
                         <p> Bulls and Cows </p>

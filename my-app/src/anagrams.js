@@ -1,6 +1,8 @@
 import React from 'react';
 import './anagrams.css';
 import API from './api.js';
+import ReactDOM from 'react-dom';
+import App from './App';
 
 import { AgGridReact } from 'ag-grid-react';
 
@@ -8,6 +10,17 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 
 const flaskApiUrl = "http://127.0.0.1:5000";
+
+class HomeButton extends React.Component {
+    render() {
+        return (
+        <button className='anagrams-home'
+            onClick={() => this.props.onClick()}>
+                {'home'}
+        </button>
+        );
+    }
+}
 
 class Letter extends React.Component {
     render() {
@@ -92,6 +105,23 @@ class AnagramsBoard extends React.Component {
         } catch (error) {
             console.log("error");
         }
+    }
+
+    async handleHomeClick() {
+        ReactDOM.render(
+            <React.StrictMode>
+              <App />
+            </React.StrictMode>,
+            document.getElementById('root')
+          );
+    }
+
+    renderHomeButton() {
+        return (
+            <HomeButton
+                onClick={() => this.handleHomeClick()}
+            />
+        );
     }
 
     async handleLetterClick(i) {
@@ -196,6 +226,9 @@ class AnagramsBoard extends React.Component {
         if (this.state.game_over == false) {
         return(
             <div>
+                <div>
+                    {this.renderHomeButton()}
+                </div>
                 <div className="anagrams-title">
                     <p> Anagrams </p>
                 </div>
@@ -230,6 +263,9 @@ class AnagramsBoard extends React.Component {
     else {
         return (
            <div>
+               <div>
+                        {this.renderHomeButton()}
+                    </div>
                <div className="anagrams-title">
                     <p> Game Over! </p>
                 </div>

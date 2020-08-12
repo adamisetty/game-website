@@ -30,7 +30,7 @@ ol, ul {
   margin-top: 10px;
   padding: 0;
   text-align: center;
-  color: #008080;
+  color: #556B2F;
   width: 150px;
 }
 
@@ -41,7 +41,7 @@ ol, ul {
 .title {
    text-align:center;
    font-size: 70px;
-   color: #008080;
+   color: #556B2F;
 }
 
 .kbd-navigation .square:focus {
@@ -55,4 +55,20 @@ ol, ul {
 
 .game-info {
   margin-left: 20px;
+}
+
+.matching-home {
+  background: rgb(255, 255, 255);
+  border: 1px solid #999;
+  float: left;
+  font-size: 27px;
+  font-weight: bold;
+  line-height: 0px;
+  height: 40px;
+  margin-right: 10px;
+  margin-top: 0px;
+  padding: 0;
+  text-align: center;
+  color: #556B2F;
+  width: 100px;
 }
