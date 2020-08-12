@@ -12,7 +12,7 @@ class Matching:
         self.second_pos = 0
         self.original_board = ['Blimey!', 'Blimey!', 'Rubbish!', 'Rubbish!', 'Minging!', 'Minging!', 'Cheerio!',
                              'Cheerio!',
-                             'Codswallop! ', 'Codswallop!', 'Gutted', 'Gutted', 'Bobs Your Uncle!', 'Bobs Your Uncle!',
+                             'Codswallop!', 'Codswallop!', 'Gutted', 'Gutted', 'Bugger Off!', 'Bugger Off!',
                              'Brilliant!', 'Brilliant!']  # 16 spaces
         self.blank_board = ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
         self.TOTAL_MATCHES = 8
@@ -70,8 +70,8 @@ class Matching:
         self.chosen_positions = []
         self.original_board = ['Blimey!', 'Blimey!', 'Rubbish!', 'Rubbish!', 'Minging!', 'Minging!', 'Cheerio!',
                                'Cheerio!',
-                               'Codswallop!', 'Codswallop!', 'Gutted', 'Gutted', 'Bobs Your Uncle!',
-                               'Bobs Your Uncle!',
+                               'Codswallop!', 'Codswallop!', 'Gutted', 'Gutted', 'Bugger Off!',
+                               'Bugger Off!',
                                'Brilliant!', 'Brilliant!']  # 16 spaces
         self.blank_board = ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
         self.TOTAL_MATCHES = 8

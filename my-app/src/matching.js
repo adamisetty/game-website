@@ -2,6 +2,8 @@ import React from 'react';
 import './matching.css';
 import API from './api.js';
 
+import codswallop from "./matching_images/codswallop.png"
+
 const flaskApiUrl = "http://127.0.0.1:5000";
 
 class Matching extends React.Component {
@@ -21,7 +23,8 @@ class MatchingBoard extends React.Component {
    constructor(props) {
        super(props);
        this.state = {
-           tiles: Array(16).fill(null)
+           tiles: Array(16).fill(null),
+           gameOver: false
        };
     this.positionString = "";
     this.myAPI = new API({url: flaskApiUrl});
@@ -29,89 +32,80 @@ class MatchingBoard extends React.Component {
     this.timesClicked = 1;
     this.firstCardClicked = -1;
     this.secondCardClicked = -1;
-    this.isClickOdd = true;
-    this.isX = false;
-    //console.log("before");
     this.myAPI.endpoints.matching.create_game({game: 'matching'});
-    //console.log("after");
+   }
+
+   coverMatchWithX() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve('X');
+            }, 2000);
+        });
+   }
+
+   hideWrongGuess() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(' ');
+            }, 2000);
+        });
    }
 
    async handleClick(i) {
    if (this.timesClicked % 2 != 0) {
    this.firstCardClicked = i;
-   this.isClickOdd = false
    var first_position = i;
    this.positionString = first_position.toString();
    this.positionString = this.positionString.concat("-");
    this.timesClicked++;
-   console.log("hello");
-   console.log(this.timesClicked);
    console.log(this.positionString);
    } else {
         this.handleSecondClick(i);
    }
   }
 
-  async timeFunction(tiles, index, time) {
-  while (this.isX && new Date().getTime() > time + 2000) {
-        console.log(new Date().getTime());
-        tiles[index] = 'X';
-        this.isX = false;
-        }
-  }
-
   async handleSecondClick(i) {
     this.secondCardClicked = i;
     if (this.secondCardClicked != this.firstCardClicked) {
-    console.log("in Secondclick");
     this.timesClicked++
     var second_position = i;
     this.positionString = this.positionString.concat(second_position.toString());
     console.log(this.positionString);
+
     try {
       var game_data = await this.myAPI.endpoints.matching.make_turn({game: 'matching'}, {position: this.positionString});
-      console.log(typeof (game_data.data["games_data"][0]["board"]));
       const tiles = this.state.tiles.slice();
       console.log(game_data.data["games_data"][0]["winner"]);
 
-      for (let index = 0; index < 16; index++) {
-        if (game_data.data["games_data"][0]["board"][index] == 'X') {
-        tiles[index] = game_data.data["games_data"][0]["winner"][index];
-        const unixTime = Math.floor(Date.now());
-        console.log(unixTime);
-        //await timeFunction(tiles, index, unixTime);
-
-//            setTimeout(() => {
-//               tiles[index] = 'X';
-//            }, 2000);
-        }
+      if (tiles[this.firstCardClicked] == 'X' || tiles[this.secondCardClicked] == 'X') {
+            this.setState({tiles: tiles});
+            return;
       }
+      tiles[this.firstCardClicked] = game_data.data["games_data"][0]["winner"][this.firstCardClicked];
+      tiles[this.secondCardClicked] = game_data.data["games_data"][0]["winner"][this.secondCardClicked];
       this.setState({tiles: tiles});
+
+      if (game_data.data["games_data"][0]["board"][this.firstCardClicked] == 'X'
+        && game_data.data["games_data"][0]["board"][this.secondCardClicked] == 'X') {
+        const xMark = await this.coverMatchWithX();
+        tiles[this.firstCardClicked] = xMark;
+        tiles[this.secondCardClicked] = xMark;
+        this.setState({tiles: tiles});
+        if (game_data.data["games_data"][0]["isWinner"] === true) {
+        this.setState({gameOver: true})
+      }
+        } else {
+            const hiddenSpace = await this.hideWrongGuess();
+            tiles[this.firstCardClicked] = hiddenSpace;
+            tiles[this.secondCardClicked] = hiddenSpace;
+            this.setState({tiles: tiles});
+        }
     } catch (error) {
       console.log("error");
     }
     }
   }
-
-
-
-
    renderCard(i) {
-//   if (this.timesClicked % 2 != 0) {
-//   return (
-//           <Matching
-//               value = {this.state.tiles[i]}
-//                onClick={() => this.handleClick(i)}
-//           />
-//       );
-//   } else {
-//   return (
-//           <Matching
-//               value = {this.state.tiles[i]}
-//                onClick={() => this.handleSecondClick(i)}
-//           />
-//       );
-//   }
     return (
         <Matching
             value = {this.state.tiles[i]}
@@ -120,7 +114,8 @@ class MatchingBoard extends React.Component {
     );
    }
 
-    render() { 
+   render() {
+        if (this.state.gameOver === false) {
         return (
            <div>
            <div className="title">
@@ -158,6 +153,20 @@ class MatchingBoard extends React.Component {
            </div>
            </div>
        );
+       } else {
+            return(
+                <div>
+                    <div className="Matching" style={{position: 'absolute', left: '50%', top: '-2%',
+                        transform: 'translate(-50%, 0%)'}}>
+                        <p> Matching </p>
+                    </div>
+                    <div className="Matching-GameOver" style={{position: 'absolute', left: '50%', top: '30%',
+                        transform: 'translate(-50%, 0%)'}}>
+                        <h3> You won!</h3>
+                    </div>
+                </div>
+            );
+       }
     }
 }
 
