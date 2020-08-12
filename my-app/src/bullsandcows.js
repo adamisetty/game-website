@@ -127,7 +127,8 @@ class BullsAndCowsBoard extends React.Component {
         var bulls = game_data.data["games_data"][0]["board"][last_turn][1];
         var cows = game_data.data["games_data"][0]["board"][last_turn][2];
         var guesses = this.state.rowData;
-        const newData = guesses.concat({ guess: guess, bulls: bulls, cows: cows });
+        var this_guess = [{ guess: guess, bulls: bulls, cows: cows }];
+        const newData = this_guess.concat(guesses);
         this.setState({rowData: newData});
         if (game_data.data["games_data"][0]["isWinner"] === true) {
             var code = game_data.data["games_data"][0]["winner"];
@@ -179,13 +180,13 @@ class BullsAndCowsBoard extends React.Component {
         if(this.state.gameover === false) {
             return(
                 <div>
-                    <div className="bullsandcows-title" style={{position: 'absolute', left: '50%', top: '0%',
+                    <div className="bullsandcows-title" style={{position: 'absolute', left: '50%', top: '-2%',
                         transform: 'translate(-50%, 0%)'}}>
                         <p> Bulls and Cows </p>
                     </div>
-                    <div style={{position: 'absolute', left: '50%', top: '20%',
+                    <div style={{position: 'absolute', left: '50%', top: '18%',
                         transform: 'translate(-50%, 0%)'}}>
-                        <p> Try to guess the 4 digit secret code. All guesses must contain 4 different numbers. A bull means you have the correct digit in the correct spot. A cow means you have a correct digit but not in the correct position. </p>
+                        <p> Try to guess the 4 digit secret code. All guesses must contain 4 different numbers. A bull means you have the correct digit in the correct spot. A cow means you have a correct digit but not in the correct position. Your latest guess along with the bulls and cows will appear at the top of the table while the last row of the tabel will contain your first guess. </p>
                     </div>
                     <div style={{position: 'absolute', left: '50%', top: '28%',
                         transform: 'translate(-50%, 0%)'}}>
@@ -221,7 +222,7 @@ class BullsAndCowsBoard extends React.Component {
         } else {
             return(
                 <div>
-                    <div className="bullsandcows-title" style={{position: 'absolute', left: '50%', top: '0%',
+                    <div className="bullsandcows-title" style={{position: 'absolute', left: '50%', top: '-2%',
                         transform: 'translate(-50%, 0%)'}}>
                         <p> Bulls and Cows </p>
                     </div>
