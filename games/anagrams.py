@@ -1,4 +1,6 @@
-from nltk.corpus import words as nltk_words
+#from nltk.corpus import words as nltk_words
+import nltk
+from PyDictionary import PyDictionary
 import random
 import time
 
@@ -7,7 +9,8 @@ class Anagrams:
     def __init__(self):
         self.score = 0
         self.previous_words = []
-        self.dictionary = dict.fromkeys(nltk_words.words(), None)
+        self.dictionary = PyDictionary()
+        self.english_vocab = set(w.lower() for w in nltk.corpus.words.words())
         self.letters = []
         self.status = 0
         self.curr_word = ''
@@ -21,39 +24,55 @@ class Anagrams:
             vowel_num = 2
         else: 
             vowel_num = 3
+        commons = 'rstlnd'
         vowels = 'aeiou'
         consonants = 'bcdfghjklmnprstvwxyz'
         letter_count = 0
-        while letter_count < vowel_num:
-            self.letters.append(random.choice(vowels))
-            letter_count = letter_count + 1
-        while letter_count < 6:
-            self.letters.append(random.choice(consonants))
-            letter_count = letter_count + 1
+        self.letters.append(random.choice(commons))
+        while len(self.letters) < vowel_num:
+            letter = random.choice(vowels)
+            if letter in self.letters:
+                temp_l = self.letters.copy()
+                temp_l.remove(letter)
+                if not (letter in temp_l):
+                    self.letters.append(letter)
+                    letter_count = letter_count + 1
+            else:
+                self.letters.append(letter)
+                letter_count = letter_count + 1
+        while len(self.letters) < 6:
+            letter = random.choice(consonants)
+            if letter in self.letters:
+                temp_l = self.letters
+                temp_l.remove(letter)
+                if not (letter in temp_l):
+                    self.letters.append(letter)
+                    letter_count = letter_count + 1
+            else:
+                self.letters.append(letter)
+                letter_count = letter_count + 1
         return 
     
     def place_mark(self, word):
         #self.curr_word = word
         if word in self.previous_words:
-            print("AlREADY FOUND")
             self.status = 2
             return self.letters 
-        if len(word) <= 2 or len(word) > 6:
-            print("TOO SHORT")
+        elif len(word) <= 2 or len(word) > 6:
             self.status = 0
             return self.letters
-        
-        try:
-            self.dictionary[word]
-            self.previous_words.append(word)
-            self.calc_score(len(word))
-            print("CALCULATED SCOREEEEEE")
-            self.status = 1
-            return self.letters
-        except KeyError:
+        elif self.dictionary.meaning(word) == None:
             self.calc_score(0)
             self.status = 0
-            return self.letters
+        elif word in self.english_vocab:
+            self.previous_words.append(word)
+            self.calc_score(len(word))
+            self.status = 1
+        else:
+            self.previous_words.append(word)
+            self.calc_score(len(word))
+            self.status = 1
+        return self.letters
 
     def calc_score(self, length):
         # will have len = 0, if invalid word

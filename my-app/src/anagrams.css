@@ -63,7 +63,7 @@ ol, ul {
   display: table;
 }
 
-.submit {
+.anagrams-submit {
   background: #fff;
   border: 1px solid #999;
   float: left;
@@ -77,4 +77,36 @@ ol, ul {
   text-align: center;
   color: #5d3a7e;
   width: 200px;
+}
+
+.anagrams-word {
+  background: #fff;
+  border: 0px solid #999;
+  float: left;
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 100px;
+  height: 100px;
+  margin-right: 10px;
+  margin-top: 20px;
+  padding: 0;
+  text-align: center;
+  color: #5d3a7e;
+  width: 250px;
+}
+
+.anagrams-status {
+  background: #fff;
+  border: 0px solid #999;
+  float: left;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 100px;
+  height: 100px;
+  margin-right: 10px;
+  margin-top: 20px;
+  padding: 0;
+  text-align: center;
+  color: #5d3a7e;
+  width: 150px;
 }
