@@ -1,0 +1,93 @@
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 20px;
+    background-color: #FFFFFF;
+  }
+  
+  ol, ul {
+    padding-left: 30px;
+  }
+  
+  .board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+  
+  .status {
+    margin-bottom: 20px;
+  }
+  
+  .hangman_letters {
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 50px;
+    height: 45px;
+    margin-right: -1px;
+    margin-top: 200px;
+    padding: 0;
+    text-align: center;
+    color: #EE82EE;
+    width: 45px;
+  }
+  
+  .letters:focus {
+    outline: none;
+  }
+  
+  .hangman_title {
+     text-align:center;
+     margin-top: 0px;
+     font-size: 40px;
+     color: #EE82EE;
+  }
+
+  .topic {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 400px;
+    color: #EE82EE;
+  }
+  
+  .guesses {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 40px;
+    margin-left: 400px;
+    color: #EE82EE;
+  }
+
+  .wrong_guesses {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 60px;
+    margin-left: 400px;
+    color: #EE82EE;
+  }
+
+  .game_over_info {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 10px;
+    margin-left: 500px;
+    color: #EE82EE;
+  }
+
+
+  .kbd-navigation .square:focus {
+    background: #ddd;
+  }
+  
+  .game {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .game-info {
+    margin-left: 20px;
+  }
+  

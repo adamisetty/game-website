@@ -7,12 +7,12 @@ class Matching:
         self.current_matches = 0
         self.strikes = 0
         self.old_positions = []
-        self.chosen_positions = []
+        self.chosen_positions = [0, 0]
         self.first_pos = 0
         self.second_pos = 0
         self.original_board = ['Blimey!', 'Blimey!', 'Rubbish!', 'Rubbish!', 'Minging!', 'Minging!', 'Cheerio!',
                              'Cheerio!',
-                             'Codswallop! ', 'Codswallop!', 'Gutted', 'Gutted', 'Bobs Your Uncle!', 'Bobs Your Uncle!',
+                             'Codswallop!', 'Codswallop!', 'Gutted', 'Gutted', 'Bugger Off!', 'Bugger Off!',
                              'Brilliant!', 'Brilliant!']  # 16 spaces
         self.blank_board = ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
         self.TOTAL_MATCHES = 8
@@ -40,8 +40,8 @@ class Matching:
             self.old_positions.append(self.second_pos)
         else:
             self.strikes += 1
-            self.blank_board[self.first_pos] = "_"  # Hides the word
-            self.blank_board[self.second_pos] = "_"
+            self.blank_board[self.first_pos] = "-"  # Hides the word
+            self.blank_board[self.second_pos] = "-"
         return self.blank_board
 
     def check_game_over(self):
@@ -52,7 +52,7 @@ class Matching:
         return self.game_over
 
     def get_winner(self):
-        return self.strikes
+        return self.hidden_board
 
     def get_current_player(self):
         return self.current_player
@@ -70,8 +70,8 @@ class Matching:
         self.chosen_positions = []
         self.original_board = ['Blimey!', 'Blimey!', 'Rubbish!', 'Rubbish!', 'Minging!', 'Minging!', 'Cheerio!',
                                'Cheerio!',
-                               'Codswallop!', 'Codswallop!', 'Gutted', 'Gutted', 'Bobs Your Uncle!',
-                               'Bobs Your Uncle!',
+                               'Codswallop!', 'Codswallop!', 'Gutted', 'Gutted', 'Bugger Off!',
+                               'Bugger Off!',
                                'Brilliant!', 'Brilliant!']  # 16 spaces
         self.blank_board = ['_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_']
         self.TOTAL_MATCHES = 8
