@@ -1,22 +1,22 @@
-#from nltk.corpus import words as nltk_words
-import nltk
 from PyDictionary import PyDictionary
+from textblob import Word as WordDict
 import random
 import time
 
 class Anagrams:
 
     def __init__(self):
+        print("start of constructor")
         self.score = 0
         self.previous_words = []
         self.dictionary = PyDictionary()
-        self.english_vocab = set(w.lower() for w in nltk.corpus.words.words())
         self.letters = []
         self.status = 0
         self.curr_word = ''
         self.SCORE_MAP = {0: 0, 3: 100, 4: 400, 5: 1200, 6:2000}
         self.START_TIME = time.time()
         self.create_board()
+        print('end of constructor')
     
     def create_board(self):
         # either 2 or 3 vowels in each game
@@ -54,24 +54,26 @@ class Anagrams:
         return 
     
     def place_mark(self, word):
-        #self.curr_word = word
         if word in self.previous_words:
             self.status = 2
             return self.letters 
         elif len(word) <= 2 or len(word) > 6:
             self.status = 0
             return self.letters
-        elif self.dictionary.meaning(word) == None:
-            self.calc_score(0)
-            self.status = 0
-        elif word in self.english_vocab:
+        elif not (self.dictionary.meaning(word) == None):
             self.previous_words.append(word)
             self.calc_score(len(word))
             self.status = 1
         else:
-            self.previous_words.append(word)
-            self.calc_score(len(word))
-            self.status = 1
+            w = WordDict(word)
+            check = w.spellcheck()
+            if (check[0][1] == 1.0) and (word == check[0][0]):
+                self.previous_words.append(word)
+                self.calc_score(len(word))
+                self.status = 1
+            else:
+                self.calc_score(0)
+                self.status = 0
         return self.letters
 
     def calc_score(self, length):
