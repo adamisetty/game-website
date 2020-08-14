@@ -51,7 +51,8 @@ class TicTacToe :
 
         if self.check_left_diagonal('O') or self.check_right_diagonal('O'):
             self.o_won[0] = True
-        if self.x_won[0] or self.o_won[0]:
+
+        if self.x_won[0] or self.o_won[0] or not(' ' in self.board):
             self.game_over[0] = True
 
 
@@ -87,11 +88,11 @@ class TicTacToe :
     def get_winner(self):
         if self.game_over[0]:
             if self.x_won[0]:
-                return 'X'
+                return 'X wins!'
             elif self.o_won[0]:
-                return 'O'
+                return 'O wins!'
             else:
-                return 'No Winner'
+                return "It's a draw!"
 
     def get_score(self):
         return self.turn_count[0]

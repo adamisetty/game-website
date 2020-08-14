@@ -4,6 +4,13 @@ body {
   background-color: #FFFFFF;
 }
 
+.tictactoe-container {
+  /* position: fixed; */
+  position: sticky;
+  white-space: nowrap;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}  
 ol, ul {
   padding-left: 30px;
 }
@@ -39,9 +46,19 @@ ol, ul {
 }
 
 .title {
-   text-align:center;
-   font-size: 70px;
-   color: #008080;
+  text-align:center;
+  /* margin-left:0px; */
+  /* margin-left: 435px; */
+  font-size: 70px;
+  color: #008080;
+}
+
+.winner {
+  text-align:center;
+  margin-left:0px;
+  margin-top: 350px;
+  font-size: 70px;
+  color: #008080;
 }
 
 .kbd-navigation .square:focus {
