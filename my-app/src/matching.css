@@ -4,6 +4,14 @@ body {
   background-color: #FFFFFF;
 }
 
+/* .menu-container {
+  position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
+ 
+  
+} */
+
 ol, ul {
   padding-left: 30px;
 }
@@ -18,7 +26,7 @@ ol, ul {
   margin-bottom: 20px;
 }
 
-.tile {
+.matching-tile {
   background: #fff;
   border: 5px solid #999;
   float: left;
@@ -38,10 +46,10 @@ ol, ul {
   outline: none;
 }
 
-.title {
-   text-align:center;
-   font-size: 70px;
-   color: #556B2F;
+.matching-title {
+  text-align:center;
+  font-size: 70px;
+  color: #556B2F;
 }
 
 .kbd-navigation .square:focus {
@@ -71,4 +79,5 @@ ol, ul {
   text-align: center;
   color: #556B2F;
   width: 100px;
+  
 }
