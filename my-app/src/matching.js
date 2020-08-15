@@ -37,28 +37,31 @@ class MatchingBoard extends React.Component {
            tiles: Array(16).fill(null),
            gameOver: false
        };
-    this.positionString = "";
-    this.myAPI = new API({url: flaskApiUrl});
-    this.myAPI.createEntity({name: 'matching'});
-    this.timesClicked = 1;
-    this.firstCardClicked = -1;
-    this.secondCardClicked = -1;
-    this.myAPI.endpoints.matching.create_game({game: 'matching'});
+       this.myAPI = new API({url: flaskApiUrl});
+        this.positionString = "";
+        this.myAPI.createEntity({name: 'matching'});
+        this.timesClicked = 1;
+        this.firstCardClicked = -1;
+        this.secondCardClicked = -1;
+        this.twoFacesOpen = false;
+        this.myAPI.endpoints.matching.create_game({game: 'matching'});
    }
 
    coverMatchWithX() {
+        this.twoFacesOpen = true;
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve('X');
-            }, 2000);
+            }, 1000);
         });
    }
 
    hideWrongGuess() {
+        this.twoFacesOpen = true;
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(' ');
-            }, 2000);
+            }, 1000);
         });
    }
 
@@ -80,32 +83,31 @@ renderHomeButton() {
 }
 
    async handleClick(i) {
-   if (this.timesClicked % 2 != 0) {
-   this.firstCardClicked = i;
-   var first_position = i;
-   this.positionString = first_position.toString();
-   this.positionString = this.positionString.concat("-");
-   this.timesClicked++;
-   console.log(this.positionString);
-   } else {
-        this.handleSecondClick(i);
-   }
+   if (!this.twoFacesOpen) {
+        if (this.timesClicked % 2 !== 0) {
+        this.firstCardClicked = i;
+        var first_position = i;
+        this.positionString = first_position.toString();
+        this.positionString = this.positionString.concat("-");
+        this.timesClicked++;
+        } else {
+            this.handleSecondClick(i);
+        }
+     }
   }
 
   async handleSecondClick(i) {
     this.secondCardClicked = i;
-    if (this.secondCardClicked != this.firstCardClicked) {
+    if (this.secondCardClicked !== this.firstCardClicked) {
     this.timesClicked++
     var second_position = i;
     this.positionString = this.positionString.concat(second_position.toString());
-    console.log(this.positionString);
 
     try {
       var game_data = await this.myAPI.endpoints.matching.make_turn({game: 'matching'}, {position: this.positionString});
       const tiles = this.state.tiles.slice();
-      console.log(game_data.data["games_data"][0]["winner"]);
 
-      if (tiles[this.firstCardClicked] == 'X' || tiles[this.secondCardClicked] == 'X') {
+      if (tiles[this.firstCardClicked] === 'X' || tiles[this.secondCardClicked] === 'X') {
             this.setState({tiles: tiles});
             return;
       }
@@ -113,11 +115,12 @@ renderHomeButton() {
       tiles[this.secondCardClicked] = game_data.data["games_data"][0]["winner"][this.secondCardClicked];
       this.setState({tiles: tiles});
 
-      if (game_data.data["games_data"][0]["board"][this.firstCardClicked] == 'X'
-        && game_data.data["games_data"][0]["board"][this.secondCardClicked] == 'X') {
+      if (game_data.data["games_data"][0]["board"][this.firstCardClicked] === 'X'
+        && game_data.data["games_data"][0]["board"][this.secondCardClicked] === 'X') {
         const xMark = await this.coverMatchWithX();
         tiles[this.firstCardClicked] = xMark;
         tiles[this.secondCardClicked] = xMark;
+        this.twoFacesOpen = false;
         this.setState({tiles: tiles});
         if (game_data.data["games_data"][0]["isWinner"] === true) {
         this.setState({gameOver: true})
@@ -126,6 +129,7 @@ renderHomeButton() {
             const hiddenSpace = await this.hideWrongGuess();
             tiles[this.firstCardClicked] = hiddenSpace;
             tiles[this.secondCardClicked] = hiddenSpace;
+            this.twoFacesOpen = false;
             this.setState({tiles: tiles});
         }
     } catch (error) {
@@ -134,7 +138,7 @@ renderHomeButton() {
     }
   }
    renderCard(i) {
-    return (
+        return (
         <Matching
             value = {this.state.tiles[i]}
             onClick = {() => this.handleClick(i)}
@@ -143,7 +147,7 @@ renderHomeButton() {
    }
 
    render() {
-        if (this.state.gameOver === false) {
+        if (!this.state.gameOver && !this.twoFacesOpen) {
         return (
            <div /*className="menu-container"*/>
               <div>
