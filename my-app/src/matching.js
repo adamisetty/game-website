@@ -38,13 +38,13 @@ class MatchingBoard extends React.Component {
            gameOver: false
        };
        this.myAPI = new API({url: flaskApiUrl});
-        this.positionString = "";
-        this.myAPI.createEntity({name: 'matching'});
-        this.timesClicked = 1;
-        this.firstCardClicked = -1;
-        this.secondCardClicked = -1;
-        this.twoFacesOpen = false;
-        this.myAPI.endpoints.matching.create_game({game: 'matching'});
+       this.positionString = "";
+       this.myAPI.createEntity({name: 'matching'});
+       this.timesClicked = 1;
+       this.firstCardClicked = -1;
+       this.secondCardClicked = -1;
+       this.twoFacesOpen = false;
+       this.myAPI.endpoints.matching.create_game({game: 'matching'});
    }
 
    coverMatchWithX() {
@@ -71,19 +71,19 @@ class MatchingBoard extends React.Component {
           <App />
         </React.StrictMode>,
         document.getElementById('root')
-      );
-}
+     );
+    }
 
-renderHomeButton() {
-    return (
-        <HomeButton
-            onClick={() => this.handleHomeClick()}
-        />
-    );
-}
+    renderHomeButton() {
+        return (
+            <HomeButton
+                onClick={() => this.handleHomeClick()}
+            />
+        );
+    }
 
    async handleClick(i) {
-   if (!this.twoFacesOpen) {
+   if (!this.twoFacesOpen) {  // Ensures that previous guess is not still in progress
         if (this.timesClicked % 2 !== 0) {
         this.firstCardClicked = i;
         var first_position = i;
@@ -101,13 +101,15 @@ renderHomeButton() {
     if (this.secondCardClicked !== this.firstCardClicked) {
     this.timesClicked++
     var second_position = i;
-    this.positionString = this.positionString.concat(second_position.toString());
+    this.positionString = this.positionString.concat(second_position.toString()); // Input format is "int-int"
 
     try {
       var game_data = await this.myAPI.endpoints.matching.make_turn({game: 'matching'}, {position: this.positionString});
+      console.log(game_data.data["games_data"][0]["winner"]);
       const tiles = this.state.tiles.slice();
 
-      if (tiles[this.firstCardClicked] === 'X' || tiles[this.secondCardClicked] === 'X') {
+      if (tiles[this.firstCardClicked] === 'X'
+        || tiles[this.secondCardClicked] === 'X') { // Checks if card has already been matched
             this.setState({tiles: tiles});
             return;
       }
@@ -116,16 +118,18 @@ renderHomeButton() {
       this.setState({tiles: tiles});
 
       if (game_data.data["games_data"][0]["board"][this.firstCardClicked] === 'X'
-        && game_data.data["games_data"][0]["board"][this.secondCardClicked] === 'X') {
+        && game_data.data["games_data"][0]["board"][this.secondCardClicked] === 'X') { // Checks for a winner
         const xMark = await this.coverMatchWithX();
         tiles[this.firstCardClicked] = xMark;
         tiles[this.secondCardClicked] = xMark;
         this.twoFacesOpen = false;
-        this.setState({tiles: tiles});
+
         if (game_data.data["games_data"][0]["isWinner"] === true) {
-        this.setState({gameOver: true})
-      }
-        } else {
+        this.setState({gameOver : true});
+        }
+        this.setState({tiles: tiles});
+        console.log("tiles set");
+        } else { // Accounts for a wrong guess
             const hiddenSpace = await this.hideWrongGuess();
             tiles[this.firstCardClicked] = hiddenSpace;
             tiles[this.secondCardClicked] = hiddenSpace;
@@ -147,7 +151,7 @@ renderHomeButton() {
    }
 
    render() {
-        if (!this.state.gameOver && !this.twoFacesOpen) {
+        if (!this.state.gameOver) {
         return (
            <div /*className="menu-container"*/>
               <div>
