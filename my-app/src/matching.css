@@ -79,5 +79,18 @@ ol, ul {
   text-align: center;
   color: #556B2F;
   width: 100px;
-  
+}
+
+.matching-gameover-title {
+    text-align: center;
+    font-size: 70 px;
+    margin-top: 500 px;
+    color: #556B2F;
+    width: 150px;
+}
+
+matching-gameOver {
+    text-align:center;
+    font-size: 70px;
+    color: #556B2F;
 }

@@ -198,11 +198,11 @@ class MatchingBoard extends React.Component {
                   <div>
                         {this.renderHomeButton()}
                     </div>
-                    <div className="Matching" style={{position: 'absolute', left: '50%', top: '-2%',
+                    <div className="matching-gameover-title" style={{position: 'absolute', left: '50%', top: '-2%',
                         transform: 'translate(-50%, 0%)'}}>
                         <p> Matching </p>
                     </div>
-                    <div className="Matching-GameOver" style={{position: 'absolute', left: '50%', top: '30%',
+                    <div className="matching-gameOver" style={{position: 'absolute', left: '50%', top: '30%',
                         transform: 'translate(-50%, 0%)'}}>
                         <h3> You won!</h3>
                     </div>
