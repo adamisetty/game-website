@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: rgb(255, 255, 255);
 }
 
 .App-link {
@@ -37,9 +37,17 @@
   }
 }
 
-.gamebutton {
+.title-home {
+  text-align:center;
+  font-size: 80px;
+  font-weight: bold;
+  color: #525252;
+}
+
+.gamebutton-tictactoe {
   background: #fff;
-  border: 1px solid #999;
+  border: 4px solid #008080;
+  border-radius: 10px;
   float: left;
   font-size: 50px;
   font-weight: bold;
@@ -50,5 +58,81 @@
   padding: 0;
   text-align: center;
   color: #008080;
-  width: 300px;
+  width: 350px;
+}
+
+.gamebutton-anagrams {
+  background: #fff;
+  border: 4px solid #5d3a7e;
+  border-radius: 10px;
+  float: left;
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 100px;
+  height: 100px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  color: #5d3a7e;
+  width: 350px;
+}
+
+.gamebutton-hangman {
+  background: #fff;
+  border: 4px solid #bb6aadf5;
+  border-radius: 10px;
+  float: left;
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 100px;
+  height: 100px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  color: #bb6aadf5;
+  width: 350px;
+}
+
+.gamebutton-bullsandcows {
+  background: #fff;
+  border: 4px solid #944c00;
+  border-radius: 10px;
+  float: left;
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 100px;
+  height: 100px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  color: #944c00;
+  width: 350px;
+}
+
+.gamebutton-matching {
+  background: #fff;
+  border: 4px solid #556B2F;
+  border-radius: 10px;
+  float: left;
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 100px;
+  height: 100px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  color: #556B2F;
+  width: 350px;
+}
+
+.row:after {
+  clear: both;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  content: "";
+  /* display: table; */
 }

@@ -54,7 +54,7 @@ class App extends React.Component {
         document.getElementById('root')
       );
     }
-    if (name == "Bulls and Cows") {
+    if (name == "Bulls & Cows") {
       ReactDOM.render(
         <React.StrictMode>
           <BullsAndCowsBoard />
@@ -80,10 +80,11 @@ class App extends React.Component {
     }
   }
 
-  renderButton(name) {
+  renderButton(name, className) {
     return (
       <Button
           value = {name}
+          cN = {className}
           onClick={() => this.handleClick(name)}
       />
     );
@@ -92,11 +93,22 @@ class App extends React.Component {
   render() {
     return (
     <div>
-      {this.renderButton("Tic Tac Toe")}
-      {this.renderButton("Anagrams")}
-      {this.renderButton("Bulls and Cows")}
-      {this.renderButton("Matching")}
-      {this.renderButton("Hangman")}
+      <div className='title-home'>Breaktime Games</div>
+      <div className='row' style={{display: "flex", justifyContent: "center", alignItems: "center", marginTop:'15px', marginBottom: '15px'}}>
+        {this.renderButton("Bulls & Cows", 'gamebutton-bullsandcows')}
+      </div>
+      <div className='row' style={{display: "flex", justifyContent: "center", alignItems: "center",marginTop:'15px', marginBottom: '15px'}}>
+        {this.renderButton("Matching", 'gamebutton-matching')}
+      </div>
+      <div className='row' style={{display: "flex", justifyContent: "center", alignItems: "center",marginTop:'15px', marginBottom: '15px'}}>
+        {this.renderButton("Tic Tac Toe", 'gamebutton-tictactoe')}
+      </div>
+      <div className='row' style={{display: "flex", justifyContent: "center", alignItems: "center", marginTop:'15px', marginBottom: '15px'}}>
+        {this.renderButton("Anagrams", 'gamebutton-anagrams')}
+      </div>
+      <div className='row' style={{display: "flex", justifyContent: "center", alignItems: "center", marginTop:'15px', marginBottom: '15px'}}>
+        {this.renderButton("Hangman", 'gamebutton-hangman')}
+      </div>
     </div>
     );
   }
@@ -106,7 +118,7 @@ class Button extends React.Component {
   render() {
       return (
       <button
-          className="gamebutton"
+          className={this.props.cN}
           onClick={() => this.props.onClick()}
         >
           {this.props.value}
