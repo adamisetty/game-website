@@ -21,7 +21,6 @@ class Matching:
 
     # Makes a turn, first_pos and second_pos are player's first and second guesses
     def place_mark(self, positions):
-        self.check_game_over()
         chosen_positions = positions.split("-")
         self.first_pos = int(chosen_positions[0])
         self.second_pos = int(chosen_positions[1])
@@ -42,6 +41,7 @@ class Matching:
             self.strikes += 1
             self.blank_board[self.first_pos] = "-"  # Hides the word
             self.blank_board[self.second_pos] = "-"
+        self.check_game_over()
         return self.blank_board
 
     def check_game_over(self):

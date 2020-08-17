@@ -3,6 +3,7 @@ import './matching.css';
 import API from './api.js';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 const flaskApiUrl = "http://127.0.0.1:5000";
 
@@ -35,30 +36,47 @@ class MatchingBoard extends React.Component {
        super(props);
        this.state = {
            tiles: Array(16).fill(null),
-           gameOver: false
+           gameOver: false,
+           gameStatus: "You lost! Better luck next time!"
        };
-    this.positionString = "";
-    this.myAPI = new API({url: flaskApiUrl});
-    this.myAPI.createEntity({name: 'matching'});
-    this.timesClicked = 1;
-    this.firstCardClicked = -1;
-    this.secondCardClicked = -1;
-    this.myAPI.endpoints.matching.create_game({game: 'matching'});
+       this.myAPI = new API({url: flaskApiUrl});
+       this.positionString = "";
+       this.myAPI.createEntity({name: 'matching'});
+       this.timesClicked = 1;
+       this.firstCardClicked = -1;
+       this.secondCardClicked = -1;
+       this.twoFacesOpen = false;
+       this.myAPI.endpoints.matching.create_game({game: 'matching'});
    }
 
+   renderTime = ({ remainingTime }) => {
+   if (remainingTime === 0) {
+        this.setState({gameOver : true});
+   }
+   return (
+        <div className="timer">
+            <div className="text">Remaining</div>
+            <div className="value">{remainingTime}</div>
+            <div className="text">seconds</div>
+        </div>
+    );
+  }
+
    coverMatchWithX() {
+        this.twoFacesOpen = true;
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve('X');
-            }, 2000);
+            }, 1000);
         });
    }
 
    hideWrongGuess() {
+        this.twoFacesOpen = true;
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(' ');
-            }, 2000);
+            }, 1000);
         });
    }
 
@@ -68,44 +86,45 @@ class MatchingBoard extends React.Component {
           <App />
         </React.StrictMode>,
         document.getElementById('root')
-      );
-}
+     );
+    }
 
-renderHomeButton() {
-    return (
-        <HomeButton
-            onClick={() => this.handleHomeClick()}
-        />
-    );
-}
+    renderHomeButton() {
+        return (
+            <HomeButton
+                onClick={() => this.handleHomeClick()}
+            />
+        );
+    }
 
    async handleClick(i) {
-   if (this.timesClicked % 2 != 0) {
-   this.firstCardClicked = i;
-   var first_position = i;
-   this.positionString = first_position.toString();
-   this.positionString = this.positionString.concat("-");
-   this.timesClicked++;
-   console.log(this.positionString);
-   } else {
-        this.handleSecondClick(i);
-   }
+   if (!this.twoFacesOpen) {  // Ensures that previous guess is not still in progress
+        if (this.timesClicked % 2 !== 0) {
+        this.firstCardClicked = i;
+        var first_position = i;
+        this.positionString = first_position.toString();
+        this.positionString = this.positionString.concat("-");
+        this.timesClicked++;
+        } else {
+            this.handleSecondClick(i);
+        }
+     }
   }
 
   async handleSecondClick(i) {
     this.secondCardClicked = i;
-    if (this.secondCardClicked != this.firstCardClicked) {
+    if (this.secondCardClicked !== this.firstCardClicked) {
     this.timesClicked++
     var second_position = i;
-    this.positionString = this.positionString.concat(second_position.toString());
-    console.log(this.positionString);
+    this.positionString = this.positionString.concat(second_position.toString()); // Input format is "int-int"
 
     try {
       var game_data = await this.myAPI.endpoints.matching.make_turn({game: 'matching'}, {position: this.positionString});
-      const tiles = this.state.tiles.slice();
       console.log(game_data.data["games_data"][0]["winner"]);
+      const tiles = this.state.tiles.slice();
 
-      if (tiles[this.firstCardClicked] == 'X' || tiles[this.secondCardClicked] == 'X') {
+      if (tiles[this.firstCardClicked] === 'X'
+        || tiles[this.secondCardClicked] === 'X') { // Checks if card has already been matched
             this.setState({tiles: tiles});
             return;
       }
@@ -113,19 +132,24 @@ renderHomeButton() {
       tiles[this.secondCardClicked] = game_data.data["games_data"][0]["winner"][this.secondCardClicked];
       this.setState({tiles: tiles});
 
-      if (game_data.data["games_data"][0]["board"][this.firstCardClicked] == 'X'
-        && game_data.data["games_data"][0]["board"][this.secondCardClicked] == 'X') {
+      if (game_data.data["games_data"][0]["board"][this.firstCardClicked] === 'X'
+        && game_data.data["games_data"][0]["board"][this.secondCardClicked] === 'X') { // Checks for a winner
         const xMark = await this.coverMatchWithX();
         tiles[this.firstCardClicked] = xMark;
         tiles[this.secondCardClicked] = xMark;
-        this.setState({tiles: tiles});
+        this.twoFacesOpen = false;
+
         if (game_data.data["games_data"][0]["isWinner"] === true) {
-        this.setState({gameOver: true})
-      }
-        } else {
+        this.setState({gameOver : true});
+        this.setState({gameStatus: "Congratulations! You won!"});
+        }
+        this.setState({tiles: tiles});
+        console.log("tiles set");
+        } else { // Accounts for a wrong guess
             const hiddenSpace = await this.hideWrongGuess();
             tiles[this.firstCardClicked] = hiddenSpace;
             tiles[this.secondCardClicked] = hiddenSpace;
+            this.twoFacesOpen = false;
             this.setState({tiles: tiles});
         }
     } catch (error) {
@@ -134,7 +158,7 @@ renderHomeButton() {
     }
   }
    renderCard(i) {
-    return (
+        return (
         <Matching
             value = {this.state.tiles[i]}
             onClick = {() => this.handleClick(i)}
@@ -143,7 +167,7 @@ renderHomeButton() {
    }
 
    render() {
-        if (this.state.gameOver === false) {
+        if (!this.state.gameOver) {
         return (
            <div /*className="menu-container"*/>
               <div>
@@ -152,6 +176,16 @@ renderHomeButton() {
            <div className="matching-title">
            <p> Matching </p>
            </div>
+           <div className="timer-wrapper">
+            <CountdownCircleTimer
+                isPlaying
+                duration={10}
+                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+                onComplete={() => [true, 1000]}
+            >
+                {this.renderTime}
+            </CountdownCircleTimer>
+            </div>
            <div
            style={{
            position: 'absolute', left: '50%', top: '50%',
@@ -190,13 +224,13 @@ renderHomeButton() {
                   <div>
                         {this.renderHomeButton()}
                     </div>
-                    <div className="Matching" style={{position: 'absolute', left: '50%', top: '-2%',
+                    <div className="matching-gameover-title" style={{position: 'absolute', left: '50%', top: '-2%',
                         transform: 'translate(-50%, 0%)'}}>
                         <p> Matching </p>
                     </div>
-                    <div className="Matching-GameOver" style={{position: 'absolute', left: '50%', top: '30%',
+                    <div className="matching-gameOver" style={{position: 'absolute', left: '50%', top: '30%',
                         transform: 'translate(-50%, 0%)'}}>
-                        <h3> You won!</h3>
+                        <h3> {this.state.gameStatus} </h3>
                     </div>
                 </div>
             );
