@@ -83,10 +83,14 @@ ol, ul {
 
 .matching-gameover-title {
     text-align: center;
-    font-size: 70 px;
+    font-size: 1000 px;
     margin-top: 500 px;
     color: #556B2F;
     width: 150px;
+}
+
+.timer-wrapper {
+    margin-left: 700 px
 }
 
 matching-gameOver {

@@ -3,6 +3,7 @@ import './matching.css';
 import API from './api.js';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
 const flaskApiUrl = "http://127.0.0.1:5000";
 
@@ -35,7 +36,8 @@ class MatchingBoard extends React.Component {
        super(props);
        this.state = {
            tiles: Array(16).fill(null),
-           gameOver: false
+           gameOver: false,
+           gameStatus: "You lost! Better luck next time!"
        };
        this.myAPI = new API({url: flaskApiUrl});
        this.positionString = "";
@@ -46,6 +48,19 @@ class MatchingBoard extends React.Component {
        this.twoFacesOpen = false;
        this.myAPI.endpoints.matching.create_game({game: 'matching'});
    }
+
+   renderTime = ({ remainingTime }) => {
+   if (remainingTime === 0) {
+        this.setState({gameOver : true});
+   }
+   return (
+        <div className="timer">
+            <div className="text">Remaining</div>
+            <div className="value">{remainingTime}</div>
+            <div className="text">seconds</div>
+        </div>
+    );
+  }
 
    coverMatchWithX() {
         this.twoFacesOpen = true;
@@ -126,6 +141,7 @@ class MatchingBoard extends React.Component {
 
         if (game_data.data["games_data"][0]["isWinner"] === true) {
         this.setState({gameOver : true});
+        this.setState({gameStatus: "Congratulations! You won!"});
         }
         this.setState({tiles: tiles});
         console.log("tiles set");
@@ -160,6 +176,16 @@ class MatchingBoard extends React.Component {
            <div className="matching-title">
            <p> Matching </p>
            </div>
+           <div className="timer-wrapper">
+            <CountdownCircleTimer
+                isPlaying
+                duration={10}
+                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+                onComplete={() => [true, 1000]}
+            >
+                {this.renderTime}
+            </CountdownCircleTimer>
+            </div>
            <div
            style={{
            position: 'absolute', left: '50%', top: '50%',
@@ -204,7 +230,7 @@ class MatchingBoard extends React.Component {
                     </div>
                     <div className="matching-gameOver" style={{position: 'absolute', left: '50%', top: '30%',
                         transform: 'translate(-50%, 0%)'}}>
-                        <h3> You won!</h3>
+                        <h3> {this.state.gameStatus} </h3>
                     </div>
                 </div>
             );
