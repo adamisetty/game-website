@@ -21,7 +21,7 @@ class Matching extends React.Component {
     render() {
       return (
         <button
-          className="tile"
+          className="matching-tile"
           onClick={() => this.props.onClick()}
         >
           {this.props.value}
@@ -145,11 +145,11 @@ renderHomeButton() {
    render() {
         if (this.state.gameOver === false) {
         return (
-           <div>
+           <div /*className="menu-container"*/>
               <div>
               {this.renderHomeButton()}
               </div>
-           <div className="title">
+           <div className="matching-title">
            <p> Matching </p>
            </div>
            <div
