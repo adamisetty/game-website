@@ -37,7 +37,9 @@ class TicTacToeBoard extends React.Component {
    constructor(props) {
        super(props);
        this.state = {
-           tiles: Array(9).fill(null)
+          tiles: Array(9).fill(null),
+          is_game_over: false,
+          winner: ""
        };
     this.myAPI = new API({url: flaskApiUrl});
     this.myAPI.createEntity({name: 'tictactoe'});
@@ -71,6 +73,8 @@ renderHomeButton() {
       if (!(game_data.data["games_data"][0]["isWinner"] == "true")) {
         tiles[i] = game_data.data["games_data"][0]["board"][i];
       }
+      this.state.is_game_over = game_data.data["games_data"][0]["isWinner"];
+      this.state.winner = game_data.data["games_data"][0]["winner"];
       this.setState({tiles: tiles});
     } catch (error) {
       console.log("error");
@@ -88,37 +92,77 @@ renderHomeButton() {
    }
 
    render() {
-       return (
-           <div>
-             <div>
+      if (!this.state.is_game_over) {
+        return (
+          <div className="tictactoe-container">
+            <div>
                 {this.renderHomeButton()}
             </div>
-           <div className="title">
-           <p> Tic Tac Toe </p>
+            <div className="title">
+              <p> Tic Tac Toe </p>
+            </div>
+            <div
+            style={{
+            position: 'absolute', left: '50%', top: '50%',
+              transform: 'translate(-50%, -50%)'
+              }}>
+                <div className="board-row">
+                  {this.renderTile('0')}
+                  {this.renderTile('1')}
+                  {this.renderTile('2')}
+                </div>
+                <div className="board-row">
+                  {this.renderTile('3')}
+                  {this.renderTile('4')}
+                  {this.renderTile('5')}
+                </div>
+                <div className="board-row">
+                  {this.renderTile('6')}
+                  {this.renderTile('7')}
+                  {this.renderTile('8')}
+                </div>
+            </div>
+            <div className="winner">
+            <p>  </p>
+            </div>
            </div>
-           <div
-           style={{
-           position: 'absolute', left: '50%', top: '50%',
-            transform: 'translate(-50%, -50%)'
-            }}>
-               <div className="board-row">
-                {this.renderTile('0')}
-                {this.renderTile('1')}
-                {this.renderTile('2')}
-               </div>
-               <div className="board-row">
-                {this.renderTile('3')}
-                {this.renderTile('4')}
-                {this.renderTile('5')}
-               </div>
-               <div className="board-row">
-                {this.renderTile('6')}
-                {this.renderTile('7')}
-                {this.renderTile('8')}
-               </div>
+        );
+      } else {
+        return (
+          <div className="tictactoe-container">
+            <div>
+                {this.renderHomeButton()}
+            </div>
+            <div className="title">
+              <p> Game Over </p>
+            </div>
+            <div
+            style={{
+            position: 'absolute', left: '50%', top: '50%',
+              transform: 'translate(-50%, -50%)'
+              }}>
+                <div className="board-row">
+                  {this.renderTile('0')}
+                  {this.renderTile('1')}
+                  {this.renderTile('2')}
+                </div>
+                <div className="board-row">
+                  {this.renderTile('3')}
+                  {this.renderTile('4')}
+                  {this.renderTile('5')}
+                </div>
+                <div className="board-row">
+                  {this.renderTile('6')}
+                  {this.renderTile('7')}
+                  {this.renderTile('8')}
+                </div>
+            </div>
+            <div className="winner">
+            <p> {this.state.winner} </p>
+            </div>
            </div>
-           </div>
-       );
+        );
+      }
    }
 }
 
