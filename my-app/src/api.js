@@ -7,7 +7,7 @@ function kebabCaseToCamel(str) {
 
 class API {
   constructor({ url }){
-    this.url = url
+    this.url = 'https://breaktime-games.herokuapp.com/'
     this.endpoints = {}
   }
   /**
