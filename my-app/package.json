@@ -18,7 +18,7 @@
     "start": "^5.1.0"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "react-scripts start",
     "heroku-postbuild":"npm install && npm run build",
     "build": "react-scripts build",
     "test": "react-scripts test",
