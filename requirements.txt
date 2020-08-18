@@ -1,0 +1,6 @@
+gunicorn 
+flask
+flask_cors
+os
+PyDictionary
+textblob

@@ -1,15 +1,17 @@
 from flask import Flask, jsonify, request
 from games import engine
 from flask_cors import CORS
+import os
 
-app = Flask('game_website')
+app = Flask('game_website', static_folder='.my-app/build', static_url_path='/')
 this_engine = engine.Engine()
 CORS(app)
 games_data = []
 
 @app.route('/')
 def home():
-    return "Welcome!"
+    return app.send_static_file('index.html')
+    #return "Welcome!"
 
 @app.route('/<game>/create', methods=['POST'])
 def create_game(game):
@@ -45,4 +47,4 @@ def make_turn(game, position='0'):
     return jsonify({'games_data' : games_data})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))
