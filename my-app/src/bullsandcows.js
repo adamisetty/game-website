@@ -132,23 +132,24 @@ class BullsAndCowsBoard extends React.Component {
 
     async handleSubmitClick() {
         var guess = this.state.guess;
-        var game_data = await this.myAPI.endpoints.bullsandcows.make_turn({game: 'bullsandcows'}, {position: guess});
-        this.setState({guess:''});
-        // console.log(game_data.data["games_data"][0]["winner"]);
-        console.log(game_data.data["games_data"][0]["winner"]);
-        var last_turn = game_data.data["games_data"][0]["board"].length - 1;
-        var bulls = game_data.data["games_data"][0]["board"][last_turn][1];
-        var cows = game_data.data["games_data"][0]["board"][last_turn][2];
-        var guesses = this.state.rowData;
-        var this_guess = [{ guess: guess, bulls: bulls, cows: cows }];
-        const newData = this_guess.concat(guesses);
-        this.setState({rowData: newData});
-        if (game_data.data["games_data"][0]["isWinner"] === true) {
-            var code = game_data.data["games_data"][0]["winner"];
-            var score = this.formatTime(parseInt(game_data.data["games_data"][0]["score"]));
-            this.setState({gameover: true});
-            this.setState({secretcode: code});
-            this.setState({score: score});
+        if (guess.length === 4) {
+            var game_data = await this.myAPI.endpoints.bullsandcows.make_turn({game: 'bullsandcows'}, {position: guess});
+            this.setState({guess:''});
+            console.log(game_data.data["games_data"][0]["winner"]);
+            var last_turn = game_data.data["games_data"][0]["board"].length - 1;
+            var bulls = game_data.data["games_data"][0]["board"][last_turn][1];
+            var cows = game_data.data["games_data"][0]["board"][last_turn][2];
+            var guesses = this.state.rowData;
+            var this_guess = [{ guess: guess, bulls: bulls, cows: cows }];
+            const newData = this_guess.concat(guesses);
+            this.setState({rowData: newData});
+            if (game_data.data["games_data"][0]["isWinner"] === true) {
+                var code = game_data.data["games_data"][0]["winner"];
+                var score = this.formatTime(parseInt(game_data.data["games_data"][0]["score"]));
+                this.setState({gameover: true});
+                this.setState({secretcode: code});
+                this.setState({score: score});
+            }
         }
     }
 
