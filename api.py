@@ -16,7 +16,7 @@ def home():
 @app.route('/<game>/create', methods=['POST'])
 def create_game(game):
     print("clear data")
-    games_data.clear()
+    #games_data.clear()
     this_engine.reset()
     this_engine.make_game(game)
     response = {
@@ -45,6 +45,11 @@ def make_turn(game, position='0'):
     games_data[0]['current-player'] = this_engine.current_player()
     games_data[0]['score'] = this_engine.score()
     return jsonify({'games_data' : games_data})
+
+@app.route('/<game>/delete_data', methods=['DELETE'])
+def delete_data(game):
+    del games_data[0]
+    return 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 80))

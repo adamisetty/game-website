@@ -42,16 +42,19 @@ class Letter extends React.Component {
 class HangmanBoard extends React.Component {
 
     constructor(props) {
-        
+        console.log('start of constuctor');
         super(props);
         this.state = {
             letters: Array(26).fill(null),
             images: [image_0, image_1, image_2, image_3, image_4, image_5, image_6]
         };
+    }
 
+    componentDidMount() {
         this.myAPI = new API({url: flaskApiUrl});
         this.myAPI.createEntity({name: 'hangman'});
         this.myAPI.endpoints.hangman.create_game({game: 'hangman'});
+        console.log('created hangman');
         this.topic = " ";
         this.guesses = " ";
         this.previous_wrong_guesses = " ";
@@ -61,6 +64,7 @@ class HangmanBoard extends React.Component {
     }
 
     async handleHomeClick() {
+        await this.myAPI.endpoints.hangman.delete({game:'hangman'});
         ReactDOM.render(
             <React.StrictMode>
               <App />
@@ -90,6 +94,7 @@ class HangmanBoard extends React.Component {
             this.number_of_wrong_guesses = game_data.data["games_data"][0]["score"];
             this.is_game_over = game_data.data["games_data"][0]["isWinner"];
             this.correct_answer = game_data.data["games_data"][0]["winner"];
+            console.log(this.correct_answer);
           }
           
           this.setState({letters: letters});

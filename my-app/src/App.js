@@ -30,11 +30,13 @@ import HangmanBoard from './hangman';
 // }
 
 class App extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
 
     }
+    console.log('created homescreen again');
   }
 
   handleClick(name) {
@@ -72,9 +74,7 @@ class App extends React.Component {
     }
     if (name == "Hangman") {
       ReactDOM.render(
-        <React.StrictMode>
-          <HangmanBoard />
-        </React.StrictMode>,
+          <HangmanBoard />,
         document.getElementById('root')
       );
     }

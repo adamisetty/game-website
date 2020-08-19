@@ -109,9 +109,7 @@ class AnagramsBoard extends React.Component {
 
     async handleHomeClick() {
         ReactDOM.render(
-            <React.StrictMode>
-              <App />
-            </React.StrictMode>,
+              <App />,
             document.getElementById('root')
           );
     }

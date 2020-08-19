@@ -7,9 +7,8 @@ import TicTacToeBoard from './tictactoe';
 import AnagramsBoard from './anagrams';
 
 ReactDOM.render(
-  <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 

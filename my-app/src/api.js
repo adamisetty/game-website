@@ -46,6 +46,7 @@ class API {
 
     endpoints.make_turn = ({game}, {position}, config={}) => axios.put(`${resourceURL}/${game}/${position}/make_turn`, config)
 
+    endpoints.delete = ({game}, config={}) => axios.delete(`${resourceURL}/${game}/delete`, config);
     //endpoints.getAll = ({ params={}}, config={} ) => axios.get(resourceURL, { params }, config)
     //endpoints.getOne = ({ id }, config={}) =>  axios.get(`${resourceURL}/${id}`, config)
     //endpoints.create = (toCreate, config={}) =>  axios.post(resourceURL, toCreate, config)
